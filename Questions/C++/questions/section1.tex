@@ -1,0 +1,599 @@
+\section{Basic of C++}
+
+\subsection{What are the key features of C++?}
+\begin{itemize}
+    \item \textbf{Object-Oriented:} Supports object-oriented programming paradigms like classes, inheritance, polymorphism, and encapsulation.
+    \item \textbf{Rich Standard Library:} Provides a comprehensive library that includes algorithms, containers, and functions for various tasks.
+    \item \textbf{Performance:} Offers low-level control over hardware and memory, making it suitable for system-level programming and performance-critical applications.
+    \item \textbf{Portability:} Designed to be platform-independent, with compilers available for most operating systems.
+    \item \textbf{Compatibility:} Supports both procedural and object-oriented programming, enabling developers to choose the appropriate paradigm based on project requirements.
+    \item \textbf{Memory Management:} Supports both static and dynamic memory allocations.
+\end{itemize}
+
+\subsection{Explain the structure of a C++ program.}
+A typical C++ program consists of the following components:
+\begin{itemize}
+    \item \textbf{Preprocessor Directives:} These are instructions to the preprocessor, which processes the source code before compilation. Directives start with \texttt{\#} and include commands like \texttt{\#include} for including header files.
+    \item \textbf{Namespace Declaration:} Namespaces help avoid name collisions and organize code. The \texttt{namespace} keyword declares a scope where identifiers can exist.
+    \item \textbf{Main Function:} Every C++ program must have a \texttt{main()} function, which serves as the entry point. Execution of the program begins from \texttt{main()}.
+    \item \textbf{Variable Declarations:} Variables are declared to store data. They must be declared before they are used, specifying the data type.
+    \item \textbf{Statements and Expressions:} C++ statements perform actions, and expressions compute values. These form the core logic of the program.
+    \item \textbf{Functions:} Functions encapsulate reusable code. They are declared with a return type, name, parameters (optional), and a function body.
+    \item \textbf{Classes and Objects (Optional):} C++ supports object-oriented programming. Classes define data structures and methods, while objects are instances of classes.
+    \item \textbf{Comments:} Comments improve code readability and understanding. They can be single-line (\texttt{//}) or multi-line (\texttt{/* */}).
+    \item \textbf{Headers and Libraries:} Header files (\texttt{\#include}) provide declarations needed for compilation. Libraries extend functionality beyond standard C++.
+    \item \textbf{End of Program:} The \texttt{return} statement in \texttt{main()} (if required) signifies the end of the program execution, returning an exit status to the operating system.
+\end{itemize}
+
+\subsection{Explain the steps from source code to executable.}
+\begin{itemize}
+    \item \textbf{Source Code (\texttt{.cpp} files):} This is where you write your C++ program using a text editor or an Integrated Development Environment (IDE).
+    \item \textbf{Preprocessing:}
+    \begin{itemize}
+        \item \textbf{Tool:} Preprocessor
+        \item \textbf{Description:} Before compilation begins, the preprocessor handles directives starting with \texttt{\#}, such as \texttt{\#include} and \texttt{\#define}. It includes header files and expands macros to generate an intermediary file (\texttt{.i}).
+    \end{itemize}
+    \item \textbf{Compilation:}
+    \begin{itemize}
+        \item \textbf{Tool: Compiler (\texttt{g++}, \texttt{clang++}, etc.)}
+        \item \textbf{Description:} The compiler translates the preprocessed source code (\texttt{.i} file) into assembly language code (\texttt{.s} file). It checks syntax, semantics, and type correctness during this phase.
+    \end{itemize}
+    \item \textbf{Assembly:}
+    \begin{itemize}
+        \item \textbf{Tool: Assembler (as)}
+        \item \textbf{Description:} The assembler converts the assembly code (\texttt{.s} file) into machine code or object code (\texttt{.o} file). Each line of assembly code corresponds directly to a machine instruction.
+    \end{itemize}
+    \item \textbf{Linking:}
+    \begin{itemize}
+        \item \textbf{Tool: Linker (ld)}
+        \item \textbf{Description:} The linker combines multiple object files (\texttt{.o} files) generated from the compilation step along with necessary libraries (like the C++ Standard Library) to create a single executable file. It resolves external references between files, assigns addresses to variables and functions, and generates the final executable (\texttt{.exe} on Windows, without extension on Unix-like systems).
+    \end{itemize}
+    \item \textbf{Loading (Optional):}
+    \begin{itemize}
+        \item \textbf{Tool:} Loader
+        \item \textbf{Description:} On some operating systems, an additional loading step may occur where the executable is loaded into memory for execution.
+    \end{itemize}
+    \item \textbf{Execution:}
+    \begin{itemize}
+        \item \textbf{Tool:} Operating System
+        \item \textbf{Description:} Finally, the operating system loads the executable into memory and starts executing the \texttt{main()} function, initiating the program.
+    \end{itemize}
+\end{itemize}
+\begin{tcolorbox}[arc=5pt, boxrule=2pt, title=Notes]
+    \begin{itemize}
+    \item \textbf{Header Files:} These are included in the preprocessing step (\texttt{\#include}) and provide declarations for functions, classes, and constants used in the program.
+    \item \textbf{Libraries:} Besides standard libraries, you can link external libraries (static \texttt{.lib} or dynamic \texttt{.dll/.so}) to extend functionality.
+    \item \textbf{Debugging Symbols:} Debug versions of executables may include symbols (\texttt{pdb} on Windows, \texttt{dSYM} on macOS) to aid in debugging.
+    \end{itemize}
+\end{tcolorbox}
+
+\subsection{What are data types in C++?}
+\begin{itemize}
+    \item \textbf{Primitive Data Types:} Integer, Float, Character, Boolean, Void
+    \item \textbf{Derived Data Types:} Pointers, References, Functions, Arrays
+    \item \textbf{User Defined Data Types:} Classes, Structures, Unions, Enumerations
+\end{itemize}
+
+\subsection{What is call by value and call by reference?}
+\begin{itemize}
+    \item \textbf{Call by Value:} a copy of the actual argument is passed to the function.
+    \begin{tcolorbox}[title=Call by Value]
+    \begin{verbatim}
+    void modifyValue(int value) {
+        value = 100; // Change local copy
+    }
+    
+    int main() {
+        int a = 10;
+        modifyValue(a); // Pass by value
+        std::cout << "Value after: " << a << std::endl; // a remains 10
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Call by Reference:} a reference to the actual argument is passed to the function.
+    \begin{tcolorbox}[title=Call by Reference]
+    \begin{verbatim}
+    void modifyValue(int &value) {
+        value = 100; // Change original value
+    }
+
+    int main() {
+        int a = 10;
+        modifyValue(a); // Pass by reference
+        std::cout << "Value after: " << a << std::endl; // a becomes 100
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Call by Pointer:} similar to call by reference, but with pointers.
+    \begin{tcolorbox}[title=Call by Pointer]
+    \begin{verbatim}
+    void modifyValue(int *value) {
+        *value = 100; // Change original value via pointer
+    }
+
+    int main() {
+        int a = 10;
+        modifyValue(&a); // Pass by pointer
+        std::cout << "Value after: " << a << std::endl; // a becomes 100
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+
+
+\subsection{What are differences between pass by value and pass by reference?}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|p{2.5cm}|X|X|}
+    \hline \rowcolor{tableheader}
+    \textbf{}                    & \textbf{Pass by Value}            & \textbf{Pass by Reference} \\
+    \hline \textbf{Memory}       & Higher memory usage due to copies & Lower memory usage, only references are passed \\
+    \hline \textbf{Performance}  & Potentially slower due to copying & Generally faster, no copying involved \\
+    \hline \textbf{Effects}      & No effect on original data        & Modifies the original data \\
+    \hline \textbf{Safety}       & Safer, no unintended side effects & Riskier, careful handling required to avoid issues \\
+    \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{What are differences between reference and pointer?}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|p{2.5cm}|X|X|}
+    \hline \rowcolor{tableheader}
+    \textbf{}                      & \textbf{Reference}                      & \textbf{Pointer} \\
+    \hline \textbf{Syntax}         & \texttt{int \&ref = variable}           & \texttt{int *ptr = \&variable} \\
+    \hline \textbf{Initialization} & Must be initialized and can not be null & Can be declared without initialization and can be null \\
+    \hline \textbf{Reassignment}   & Reference cannot be changed             & Can be reassigned to point to a different variable \\
+    \hline \textbf{Dereferencing}  & Automatically dereferenced              & Explicit dereferencing using \texttt{*int value = *ptr} \\
+    \hline \textbf{Address}        & Does not have its own address           & Has its own address and can store other addresses \\
+    \hline \textbf{Use Cases}      & Function parameters and return values; Operator overloading   & Dynamic memory allocation; Low level memory manipulation \\
+    \hline 
+    \end{tabularx}
+\end{table}
+
+\subsection{What are differences between prefix and postfix?}
+\begin{itemize}
+    \item \textbf{Prefix Increment/Decrement}
+        \begin{itemize}
+        \item \textbf{Syntax:} \texttt{++variable} or \texttt{--variable}
+        \item \textbf{Operation:} The operator is applied before the value is used in the expression.
+        \end{itemize}
+    \begin{tcolorbox}[title=Prefix]
+    \begin{verbatim}
+    int a = 5;
+    int b = ++a; // a is incremented to 6, then b is assigned the value 6
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Postfix Increment/Decrement}
+        \begin{itemize}
+        \item \textbf{Syntax:} \texttt{variable++} or \texttt{variable--}
+        \item \textbf{Operation:} The operator is applied after the value is used in the expression.
+        \end{itemize} 
+    \begin{tcolorbox}[title=Postfix]
+    \begin{verbatim} 
+    int a = 5;
+    int b = a++; // b is assigned the value 5, then a is incremented to 6
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+
+\subsection{What are operations on pointers?}
+\begin{itemize}
+    \item Declaration and Initialization
+    \item Assignment
+    \item Dereferencing
+    \item Address-of Operator
+    \item Pointer Arithmetic
+    \item Comparison
+    \item Null Pointers
+\end{itemize}
+\begin{tcolorbox}[title=Operations on Pointers]
+    \begin{verbatim}
+    #include <iostream>
+
+    int main() {
+        int x = 10;
+        int y = 20;
+        int arr[] = {1, 2, 3, 4, 5};
+    
+        // Declaration and Initialization
+        int *ptr1 = &x;
+        int *ptr2 = &y;
+    
+        // Assignment
+        ptr1 = ptr2; // ptr1 now points to y
+    
+        // Dereferencing
+        std::cout << "Value at ptr1: " << *ptr1 << std::endl; // Output: 20
+        *ptr1 = 30; // Changing the value of y to 30
+    
+        // Address-of Operator
+        int *ptr3 = &x;
+    
+        // Pointer Arithmetic
+        int *ptrArr = arr;
+        std::cout << "First element: " << *ptrArr << std::endl; // Output: 1
+        ptrArr++;
+        std::cout << "Second element: " << *ptrArr << std::endl; // Output: 2
+    
+        // Comparison
+        if (ptr1 != ptr2) {
+            std::cout << "Pointers are different" << std::endl;
+        } else {
+            std::cout << "Pointers are the same" << std::endl; // Printed
+        }
+    
+        // Null Pointer
+        int *ptrNull = nullptr;
+        if (ptrNull == nullptr) {
+            std::cout << "ptrNull is a null pointer" << std::endl; // Printed
+        }
+    
+        return 0;
+    }        
+    \end{verbatim}
+\end{tcolorbox}
+
+\subsection{What are different storage classes?}
+In C++, storage classes define the scope, visibility, and lifetime of variables and/or functions within a C++ program. There are four storage classes in C++:
+
+\begin{itemize}
+    \item \textbf{\texttt{auto}}:
+    \begin{itemize}
+        \item Default storage class for local variables.
+        \item The variable is only visible within the block where it is defined.
+    \end{itemize}
+    \item \textbf{\texttt{register}}:
+    \begin{itemize}
+        \item Suggests that the variable be stored in a CPU register instead of RAM.
+        \item Used for variables that require fast access.
+    \end{itemize}
+    \item \textbf{\texttt{static}}:
+    \begin{itemize}
+        \item The variable retains its value between multiple function calls.
+        \item For global variables, the variable is limited to the file scope.
+    \end{itemize}
+    \item \textbf{\texttt{extern}}:
+    \begin{itemize}
+        \item Used to declare a global variable or function in another file.
+        \item Indicates that the variable is defined elsewhere.
+    \end{itemize}
+    \item \textbf{\texttt{mutable}}:
+    \begin{itemize}
+        \item Allows a member of an object to be modified even if the object is const.
+        \item Used primarily with class member variables.
+    \end{itemize}
+\end{itemize}
+
+\subsection{What are access modifiers?}
+Access modifiers in C++ are keywords that set the access level or visibility of class members. There are three primary access modifiers:
+
+\begin{itemize}
+    \item \textbf{\texttt{public}}:
+    \begin{itemize}
+        \item Members are accessible from outside the class.
+        \item Used for functions and variables that need to be accessed by other classes.
+    \end{itemize}
+    \item \textbf{\texttt{protected}}:
+    \begin{itemize}
+        \item Members are accessible within the class and by derived class instances.
+        \item Used to allow derived classes to access the base class members while hiding them from the rest of the program.
+    \end{itemize}
+    \item \textbf{\texttt{private}}:
+    \begin{itemize}
+        \item Members are only accessible within the class itself.
+        \item Used to hide data and functions from outside the class.
+    \end{itemize}
+\end{itemize}
+
+\subsection{What are inline functions}
+Inline functions are functions defined with the \texttt{inline} keyword, which suggests to the compiler to insert the function's code at the point of call rather than performing a traditional function call. This can improve performance by avoiding the overhead of a function call, especially for small, frequently called functions.
+
+\begin{itemize}
+    \item Declared using the \texttt{inline} keyword.
+    \item Useful for small functions that are called frequently.
+    \item Can lead to faster execution but may increase the size of the binary.
+    \begin{tcolorbox}[title=Inline Function]
+    \begin{verbatim}
+    inline int add(int a, int b) {
+        return a + b;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+
+\subsection{What are differences between \texttt{static} and \texttt{volatile}?}
+\begin{itemize}
+    \item \textbf{\texttt{static}}:
+    \begin{itemize}
+        \item The \texttt{static} keyword in C++ is used to declare variables that retain their value between function calls.
+        \item It can be applied to local variables, global variables, and class members.
+        \item A \texttt{static} variable inside a function retains its value between invocations of the function.
+        \item A \texttt{static} global variable or function has internal linkage, meaning it is only accessible within the file in which it is declared.
+        \item A \texttt{static} class member is shared among all instances of the class.
+    \end{itemize}
+    
+    \item \textbf{\texttt{volatile}}:
+    \begin{itemize}
+        \item The \texttt{volatile} keyword is used to indicate that a variable's value may be changed at any time by something outside the control of the code section in which it appears.
+        \item This prevents the compiler from optimizing the code in ways that assume the variable's value is not changing unexpectedly.
+        \item It is commonly used in embedded systems, multithreading, and signal handling.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Explain the concept of RAII (Resource Acquisition Is Initialization).}
+Resource Acquisition Is Initialization (RAII) is a programming idiom used to manage resources such as memory, file handles, and network connections. It ties resource management to the lifetime of objects, ensuring that resources are properly released when objects go out of scope.
+
+\begin{itemize}
+    \item Resources are acquired and released by constructors and destructors, respectively.
+    \item Ensures exception safety by automatically releasing resources in the destructor.
+    \item Commonly used with smart pointers, file streams, and lock guards.
+\end{itemize}
+
+\subsection{What is exception handling in C++? Why is it used?}
+Exception handling in C++ provides a way to react to exceptional circumstances (errors) in a program. It is used to manage errors and exceptional conditions in a controlled way, allowing the program to continue running or gracefully terminate.
+
+\begin{itemize}
+    \item Helps in separating error-handling code from regular code.
+    \item Enables handling of runtime errors, preventing abrupt program termination.
+\end{itemize}
+
+\subsection{Explain the \texttt{try}, \texttt{catch}, and \texttt{throw} blocks in C++.}
+\begin{itemize}
+    \item \textbf{\texttt{try}} block:
+    \begin{itemize}
+        \item Contains code that might throw an exception.
+        \item If an exception is thrown, the control is transferred to the corresponding \texttt{catch} block.
+    \end{itemize}
+    
+    \item \textbf{\texttt{catch}} block:
+    \begin{itemize}
+        \item Used to handle exceptions thrown by the \texttt{try} block.
+        \item Multiple \texttt{catch} blocks can be used to handle different types of exceptions.
+    \end{itemize}
+    
+    \item \textbf{\texttt{throw}} statement:
+    \begin{itemize}
+        \item Used to throw an exception.
+        \item Can be used to throw exceptions of any type.
+    \end{itemize}
+\end{itemize}
+\begin{tcolorbox}[title=Exception Handling]
+\begin{verbatim}
+    try {
+        // Code that may throw an exception
+        throw std::runtime_error("Error occurred");
+    } catch (const std::runtime_error &e) {
+        // Handle runtime error
+        std::cerr << e.what() << std::endl;
+    } catch (...) {
+        // Handle any exception
+        std::cerr << "Unknown error" << std::endl;
+    }
+\end{verbatim}        
+\end{tcolorbox}
+
+\subsection{What is the difference between runtime error and compile time error?}
+\begin{itemize}
+    \item \textbf{Runtime Error}:
+    \begin{itemize}
+        \item Occurs during the execution of a program.
+        \item Examples include division by zero, null pointer dereference, and out-of-bounds array access.
+        \item Usually leads to program termination or undefined behavior.
+    \end{itemize}
+
+    \item \textbf{Compile Time Error}:
+    \begin{itemize}
+        \item Detected by the compiler during the compilation of the program.
+        \item Examples include syntax errors, type mismatches, and undeclared variables.
+        \item Prevents the program from compiling successfully.
+    \end{itemize}
+\end{itemize}
+
+\subsection{How do you create a custom exception in C++?}
+Creating a custom exception in C++ involves defining a new class that inherits from the \texttt{std::exception} class or any of its derived classes.
+\begin{tcolorbox}[title=Custom Exception]
+\begin{verbatim}
+#include <exception>
+
+class MyCustomException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "My custom exception occurred";
+    }
+};
+
+int main() {
+    try {
+        throw MyCustomException();
+    } catch (const MyCustomException &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{How do you open and close a file in C++?}
+To open and close a file in C++, you use the file stream classes from the \texttt{<fstream>} library.
+\begin{tcolorbox}[title=File Open and Close]
+\begin{verbatim}
+#include <fstream>
+#include <iostream>
+
+int main() {
+    std::ofstream outFile("example.txt"); // Open file for writing
+    if (outFile.is_open()) {
+        outFile << "Writing to file\n";
+        outFile.close(); // Close the file
+    }
+
+    std::ifstream inFile("example.txt"); // Open file for reading
+    if (inFile.is_open()) {
+        std::string line;
+        while (std::getline(inFile, line)) {
+            std::cout << line << std::endl;
+        }
+        inFile.close(); // Close the file
+    }
+
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Explain the difference between \texttt{ifstream}, \texttt{ofstream}, and \texttt{fstream} in C++.}
+\begin{itemize}
+    \item \textbf{\texttt{ifstream}}:
+    \begin{itemize}
+        \item Input file stream.
+        \item Used for reading from files.
+    \end{itemize}
+    
+    \item \textbf{\texttt{ofstream}}:
+    \begin{itemize}
+        \item Output file stream.
+        \item Used for writing to files.
+    \end{itemize}
+    
+    \item \textbf{\texttt{fstream}}:
+    \begin{itemize}
+        \item File stream.
+        \item Used for both reading from and writing to files.
+    \end{itemize}
+\end{itemize}
+
+\subsection{How do you check if a file exists in C++?}
+To check if a file exists in C++, you can use the \texttt{std::ifstream} class.
+
+\begin{tcolorbox}[title=File Exists]
+\begin{verbatim}
+#include <fstream>
+#include <iostream>
+
+bool fileExists(const std::string &filename) {
+    std::ifstream file(filename);
+    return file.good();
+}
+
+int main() {
+    std::string filename = "example.txt";
+    if (fileExists(filename)) {
+        std::cout << "File exists.\n";
+    } else {
+        std::cout << "File does not exist.\n";
+    }
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is the difference between \texttt{const char*}, \texttt{char* const}, and \texttt{const char* const}.}
+\begin{itemize}
+    \item \textbf{\texttt{const char*}}:
+    \begin{itemize}
+        \item Pointer to a constant character.
+        \item The character pointed to by the pointer cannot be modified.
+        \item The pointer itself can be modified to point to another character.
+        \item Example: \texttt{const char* ptr = "Hello";}
+    \end{itemize}
+    
+    \item \textbf{\texttt{char* const}}:
+    \begin{itemize}
+        \item Constant pointer to a character.
+        \item The pointer itself cannot be modified after initialization.
+        \item The character pointed to by the pointer can be modified.
+        \item Example: \texttt{char c = 'A'; char* const ptr = \&c;}
+    \end{itemize}
+    
+    \item \textbf{\texttt{const char* const}}:
+    \begin{itemize}
+        \item Constant pointer to a constant character.
+        \item Neither the pointer nor the character it points to can be modified.
+        \item Example: \texttt{const char* const ptr = "Hello";}
+    \end{itemize}
+\end{itemize}
+
+\subsection{How to return a string from a function in C++?}
+\begin{itemize}
+\item \textbf{Method 1: Returning a String Object}
+\begin{tcolorbox}[title=As an Object]
+\begin{verbatim}
+#include <iostream>
+#include <string>
+
+std::string getString() {
+    std::string message = "Hello, World!";
+    return message;
+}
+
+int main() {
+    std::string result = getString();
+    std::cout << "Returned string: " << result << std::endl;
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\item \textbf{Method 2: Returning a String by Reference}
+\begin{tcolorbox}[title=As a Reference]
+\begin{verbatim}
+#include <iostream>
+#include <string>
+
+const std::string& getString() {
+    static std::string message = "Hello, World!";
+    return message;
+}
+
+int main() {
+    const std::string& result = getString();
+    std::cout << "Returned string: " << result << std::endl;
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+\end{itemize}
+
+\subsection{What are namespaces in C++? Explain how they work.}
+
+Namespaces are a feature in C++ that allows you to group a set of related classes, functions, and variables under a single name. This helps to avoid name collisions in large projects where multiple libraries might have functions or variables with the same names. By encapsulating these entities within a namespace, you ensure that their names are unique within the scope of that namespace.
+Here is a basic example to illustrate how namespaces work in C++:
+\begin{tcolorbox}[title=Namespace]
+\begin{verbatim}
+#include <iostream>
+
+namespace MyNamespace {
+    void display() {
+        std::cout << "Hello from MyNamespace!" << std::endl;
+    }
+}
+
+int main() {
+    MyNamespace::display();
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\begin{itemize}
+    \item \textbf{Declaration:} The keyword \texttt{namespace} is used to declare a namespace. In this example, \texttt{MyNamespace} is a namespace that contains the \texttt{display} function.
+    \item \textbf{Scope Resolution Operator:} To call a function or access a variable within a namespace, you use the scope resolution operator \texttt{::}. In \texttt{MyNamespace::display()}, the \texttt{::} operator is used to access the \texttt{display} function within \texttt{MyNamespace}.
+\end{itemize}
+
+\textbf{Types of Namespaces}
+\begin{itemize}
+    \item Regular Namespaces
+    \item Anonymous Namespaces
+    \item Nested Namespaces
+    \item Inline Namespaces (C++11 and later)
+    \item Standard Namespace
+\end{itemize}
+
+\subsection{}
+\subsection{}
+\subsection{}
+\subsection{}

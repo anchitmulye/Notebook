@@ -1,0 +1,375 @@
+\section{Advanced C++}
+
+\subsection{What is a dangling pointer? How do you avoid it?}
+A dangling pointer in C++ refers to a pointer that points to a memory location that has been freed or deleted. Accessing or dereferencing such a pointer can lead to undefined behavior. \\
+To avoid dangling pointers:
+\begin{itemize}
+    \item Always initialize pointers when declaring them.
+    \item Avoid dereferencing pointers after they have been deleted or gone out of scope.
+    \item Use smart pointers or nullptr to manage memory and avoid manual deallocation issues.
+\end{itemize}
+\begin{tcolorbox}[title=Dangling Pointer]
+\begin{verbatim}
+int* ptr = new int(10); // Allocate memory
+std::cout << "Value: " << *ptr << std::endl;
+delete ptr; // Deallocate memory
+std::cout << "Value after delete: " << *ptr << std::endl; // Undefined behavior
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Explain the concept of smart pointers in C++.}
+Smart pointers in C++ are classes that manage the lifetime of dynamically allocated objects, ensuring proper resource management and avoiding memory leaks. They automatically release memory when it's no longer needed, either through reference counting or unique ownership. \\
+Examples include \texttt{std::unique\_ptr}, \texttt{std::shared\_ptr}, and \texttt{std::weak\_ptr}.
+
+\subsection{What is memory leakage? How does C++ manage memory?}
+Memory leakage in C++ occurs when allocated memory is not properly deallocated after use, leading to a gradual depletion of available memory. \\
+C++ manages memory through:
+\begin{itemize}
+    \item Manual allocation and deallocation using \texttt{new} and \texttt{delete} operators.
+    \item Smart pointers (\texttt{std::unique\_ptr}, \texttt{std::shared\_ptr}) for automatic memory management.
+    \item RAII (Resource Acquisition Is Initialization) principle for deterministic destruction of objects and freeing of resources.
+\end{itemize}
+
+\subsection{What is difference between \texttt{delete} and \texttt{delete[]} operators in C++?}
+In C++, \texttt{delete} is used to deallocate memory allocated for a single object, while \texttt{delete[]} is used to deallocate memory allocated for arrays of objects. Using \texttt{delete[]} ensures that the correct number of destructors are called for each element in the array.
+
+\subsection{What is STL? Exlpain its components.}
+STL (Standard Template Library) is a collection of classes and functions in C++ that provides general-purpose classes and algorithms, such as containers (like vectors, lists, maps), algorithms (like sorting, searching), and iterators. \\
+Components of STL:
+\begin{itemize}
+    \item Containers: Sequence containers (vector, list, deque), associative containers (set, map), container adaptors (stack, queue).
+    \item Algorithms: Sorting, searching, modifying algorithms.
+    \item Iterators: Generalized pointers that allow traversal of containers.
+\end{itemize}
+
+\subsection{What is an iterator? Explain the types of iterators in C++.}
+An iterator in C++ is an object that allows iteration through elements of a container. It acts like a generalized pointer. \\
+Types of iterators:
+\begin{itemize}
+    \item Input iterators: Read-only access and single pass traversal.
+    \item Output iterators: Write-only access and single pass traversal.
+    \item Forward iterators: Read and write access, multi-pass traversal in one direction.
+    \item Bidirectional iterators: Read and write access, multi-pass traversal in both directions.
+    \item Random access iterators: Read and write access with arithmetic operations for random access.
+\end{itemize}
+
+\subsection{What are templates in C++? Why are they useful?}
+Templates in C++ allow generic programming by enabling the creation of functions and classes that operate on types parameterized by other types. They enable code reusability and flexibility by allowing algorithms to work on different data types without rewriting code.
+
+\subsection{Explain function templates with an example.}
+Function templates in C++ define functions that operate on generic types. Here's an example of a function template that computes the maximum of two values:
+\begin{tcolorbox}[title=Function Template]
+\begin{verbatim}
+template<typename T>
+T max(T a, T b) {
+    return (a > b) ? a : b;
+}
+\end{verbatim}
+\end{tcolorbox}
+This template can be instantiated with different types (\texttt{int}, \texttt{double}, etc.) to create specific functions.
+
+\subsection{What is difference between class templates and function templates?}
+Class templates define blueprints for classes that can work with any data type, while function templates define blueprints for functions that can work with any data type. Class templates define entire classes that are parameterized by one or more types, whereas function templates define functions that are parameterized by one or more types.
+\begin{tcolorbox}[title=Class Template]
+\begin{verbatim}
+template<typename T>
+class Container {
+private:
+    T element;
+public:
+    Container(T arg) : element(arg) {}
+    T getElement() { return element; }
+};
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is specialization in templates?}
+Template specialization in C++ allows you to provide a different implementation for a template when instantiated with specific types. It allows customization of template behavior for particular data types or scenarios.
+\begin{tcolorbox}[title=Specialization in Template]
+\begin{verbatim}
+template<>
+const char* max<const char*>(const char* a, const char* b) {
+    return strcmp(a, b) > 0 ? a : b;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{How do you create a generic function in C++?}
+To create a generic function in C++, you use function templates. Here's an example of a generic function to swap two values:
+\begin{tcolorbox}[title=Generic Function]
+\begin{verbatim}
+template<typename T>
+void swap(T& a, T& b) {
+    T temp = a;
+    a = b;
+    b = temp;
+}
+\end{verbatim}
+\end{tcolorbox}
+This function template works for any data type.
+
+\subsection{What are lambdas in C++? Provide an example.}
+Lambdas in C++ are anonymous functions that can be defined inline. They provide a concise way to write function objects or closures. They capture variables from their enclosing scope by value or reference. \\
+Example of a lambda that adds two numbers:
+\begin{tcolorbox}[title=Lambda Function]
+\begin{verbatim}
+auto add = [](int a, int b) {
+    return a + b;
+};
+\end{verbatim}
+\end{tcolorbox}
+\begin{itemize}
+    \item Capture Everything by Value (\texttt{[=]})
+    \item Capture Everything by Reference (\texttt{[\&]})
+    \item Capture Specific Variables by Value (\texttt{[a]})
+    \item Capture Specific Variables by Reference (\texttt{[\&a]})
+    \item Mixed Capture (\texttt{[=, \&b]})
+    \item Capture by Value and Reference in C++14 and Later (\texttt{[=a, \&b]})
+\end{itemize}
+
+\subsection{Explain the difference between \texttt{std::function} and function pointers in C++}
+\texttt{std::function} in C++ is a polymorphic function wrapper that can store, copy, and invoke any Callable target—functions, lambdas, bind expressions, or other function objects. \\ 
+Function pointers, on the other hand, directly point to a function's address and have limited flexibility compared to \texttt{std::function}.
+\begin{itemize}
+    \item Function Pointers: allow you to store the address of a function and call it indirectly.
+    \begin{tcolorbox}[title=Function Pointer]
+    \begin{verbatim}
+    #include <iostream>
+
+    // A simple function
+    void printNumber(int number) {
+        std::cout << "Number: " << number << std::endl;
+    }
+    
+    int main() {
+        // Declare a function pointer
+        void (*funcPtr)(int) = &printNumber;
+    
+        // Call the function through the pointer
+        funcPtr(42);
+    
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \texttt{std::function}: is a versatile function wrapper provided by the C++ Standard Library. It can store any callable target, such as function pointers, lambda expressions, and function objects.
+    \begin{tcolorbox}[title=\texttt{std::function}]
+    \begin{verbatim}
+    #include <iostream>
+    #include <functional> // For std::function and std::bind
+    #include <vector>
+    #include <algorithm> // For std::for_each
+    
+    void printSum(int a, int b) {
+        std::cout << "Sum: " << a + b << std::endl;
+    }
+    
+    int main() {
+        using namespace std::placeholders; // For _1, _2, etc.
+    
+        // Create a std::function with a lambda expression
+        std::function<void(int)> func = [](int number) {
+            std::cout << "Number: " << number << std::endl;
+        };
+    
+        func(10);
+    
+        // Use std::bind to create a new function with one argument
+        std::function<void(int)> boundFunc = std::bind(printSum, _1, 10);
+        boundFunc(5);
+    
+        // Use std::function with a standard algorithm
+        std::vector<int> vec = {1, 2, 3, 4, 5};
+        std::for_each(vec.begin(), vec.end(), func);
+    
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+
+\subsection{What is concurrency in C++?}
+Concurrency in C++ refers to the ability of a program to perform multiple tasks simultaneously. It involves executing multiple threads or processes concurrently to improve program efficiency and responsiveness.
+
+
+\subsection{Explain the difference between threads and processes.}
+In C++, threads are lightweight processes within a single process that share memory and resources, allowing concurrent execution. Processes, on the other hand, are independent instances of a program that run in separate memory spaces and communicate through inter-process communication mechanisms.
+
+
+\subsection{What is a mutex? How do you use it in C++?}
+A mutex (mutual exclusion) in C++ is a synchronization primitive used to protect shared data from being simultaneously accessed by multiple threads. It allows only one thread at a time to lock the mutex and access the shared resource. \\
+Example usage of a mutex:
+\begin{tcolorbox}[title=Mutex]
+\begin{verbatim}
+#include <mutex>
+
+std::mutex mtx;
+
+void critical_section() {
+    mtx.lock();
+    // Perform critical operations
+    mtx.unlock();
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What are different types of mutex in C++?}
+\begin{itemize}
+    \item \textbf{\texttt{std::mutex:}} The basic mutex class. It provides the \texttt{lock}, \texttt{unlock}, and \texttt{try\_lock} methods.
+    \item \textbf{\texttt{std::timed\_mutex:}} Extends std::mutex with the ability to attempt locking with a timeout.
+    \item \textbf{\texttt{std::recursive\_mutex:}} A mutex that can be locked multiple times by the same thread. Each lock must be matched by an unlock operation.
+    \item \textbf{\texttt{std::recursive\_timed\_mutex:}} Extends \texttt{std::recursive\_mutex} with the ability to attempt locking with a timeout.
+    \item \textbf{\texttt{std::shared\_mutex:}} A mutex that allows multiple threads to share simultaneous read access while only one thread can hold write access.
+    \item \textbf{\texttt{std::shared\_timed\_mutex:}} Extends \texttt{std::shared\_mutex} with the ability to attempt locking with a timeout.
+\end{itemize}
+
+\subsection{What are the advantages of using \texttt{std::thread} over \texttt{pthread}?}
+\texttt{std::thread} in C++ provides a portable and standardized interface for creating and managing threads across different platforms. It encapsulates platform-specific details and simplifies thread management compared to using platform-specific libraries like \texttt{pthread}.
+\begin{itemize}
+    \item \textbf{Standardization:} \texttt{std::thread} is part of the C++ Standard Library (\texttt{<thread>} header), ensuring portability across different platforms and compilers.
+    \item \textbf{Integration:} \texttt{std::thread} seamlessly integrates with other C++ features like exceptions, RAII (Resource Acquisition Is Initialization), and lambda expressions.
+    \item \textbf{Ease of Use:} \texttt{std::thread} provides a more modern and intuitive interface compared to \texttt{pthread}, making it easier to create and manage threads.
+    \item \textbf{Type Safety:} \texttt{std::thread} supports type-safe function and object binding, reducing errors related to thread creation and management.
+\end{itemize}
+
+\subsection{How do you handle race conditions in C++?}
+Race conditions in C++ are handled using synchronization techniques such as mutexes, locks, and atomic operations. These techniques ensure that shared resources are accessed in a controlled manner, preventing conflicting accesses by multiple threads. \\
+\begin{itemize}
+    \item \textbf{Mutexes:} Use \texttt{std::mutex} (or other synchronization primitives like \texttt{std::lock\_guard}, \texttt{std::unique\_lock}) to protect shared resources. Only one thread can lock the mutex at a time, ensuring mutual exclusion.
+    \begin{tcolorbox}[title=Mutexes]
+    \begin{verbatim}
+    #include <mutex>
+    std::mutex mtx;
+    int shared_data = 0;
+
+    void incrementSharedData() {
+        std::lock_guard<std::mutex> lock(mtx);
+        shared_data++;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Atomic Types:} Use \texttt{std::atomic} for simple variables like integers that require atomic access operations. Operations on std::atomic variables are guaranteed to be thread-safe. \\
+    \begin{tcolorbox}[title=Atomic Types]
+    \begin{verbatim}
+    #include <atomic>
+    std::atomic<int> atomic_data(0);
+
+    void incrementAtomicData() {
+        atomic_data++;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Thread Synchronization:} Use condition variables (\texttt{std::condition\_variable}) to notify waiting threads about changes in shared data, avoiding busy-waiting and improving efficiency. \\
+    \begin{tcolorbox}[title=Thread Synchronization]
+    \begin{verbatim}
+    #include <condition_variable>
+    std::mutex mtx;
+    std::condition_variable cv;
+    bool data_ready = false;
+
+    void processData() {
+        std::unique_lock<std::mutex> lock(mtx);
+        // Wait until data is ready
+        cv.wait(lock, [] { return data_ready; });
+        // Process data
+    }
+
+    void setDataReady() {
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            data_ready = true;
+        }
+        cv.notify_one(); // Notify waiting thread
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Design Considerations:} Use thread-safe data structures (e.g., std::queue with mutex protection) and minimize shared state between threads to reduce the likelihood of race conditions.
+\end{itemize}
+
+\subsection{Explain move semantics in C++11. When and why is it used?}
+Move semantics in C++11 allows the efficient transfer of resources (like dynamically allocated memory) from one object to another without unnecessary copying. It's used to optimize performance by reducing the overhead of copying large objects, especially in situations involving temporary objects and function returns.
+\begin{tcolorbox}[title=Move Semantics]
+\begin{verbatim}
+// Move constructor
+MyClass(MyClass&& other) noexcept
+    : data(std::move(other.data)) {
+    other.data = nullptr; // Invalidate the moved-from object
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What are rvalue references? How are they related to move semantics?}
+Rvalue references in C++ allow binding to temporary objects (rvalues) and are denoted by \texttt{\&\&}. They enable move semantics by distinguishing between objects that can be safely moved from (rvalues) and objects that should not be moved from (lvalues).
+\begin{tcolorbox}[title=rvalue]
+\begin{verbatim}
+// Function taking an rvalue reference parameter
+void processValue(int&& value) {
+    // Use value
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is template metaprogramming? Proivde an example.}
+Template metaprogramming in C++ involves using templates to perform computations at compile-time, rather than run-time. It allows for powerful compile-time optimizations and code generation. \\
+Example of template metaprogramming to calculate factorial:
+\begin{tcolorbox}[title=Template Metaprogramming]
+\begin{verbatim}
+template<unsigned n>
+struct factorial {
+    static const unsigned value = n * factorial<n - 1>::value;
+};
+
+template<>
+struct factorial<0> {
+    static const unsigned value = 1;
+};
+
+// Usage
+unsigned fact = factorial<5>::value; // fact will be 120
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Explain \texttt{noexcept} specifier in C++. When and why it is used?}
+The \texttt{noexcept} specifier in C++ indicates that a function does not throw exceptions. It's used to improve performance and enable certain optimizations, as well as to provide information to the compiler and programmers about exception safety guarantees.
+\begin{tcolorbox}[title=\texttt{noexcept}]
+\begin{verbatim}
+void func() noexcept {
+    // Function body
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What are the improvements introduced in C++14, C++17, and C++20?}
+\begin{itemize}
+\item \textbf{C++14:} introduced several enhancements over C++11, focusing mainly on improving usability and flexibility without introducing major breaking changes. Some key features include:
+\begin{itemize}
+    \item \textbf{Generic lambdas:} Lambdas can now have auto-declared parameters, allowing them to be used with different argument types.
+    \item \textbf{Relaxed constexpr restrictions:} constexpr functions can now contain a broader range of statements including loops and conditional statements.
+    \item \textbf{Variable templates:} Templates can now be used to define variables as well as functions and classes.
+    \item \textbf{Binary literals and digit separators:} Support for binary literals (e.g., `0b1101`) and digit separators (e.g., `1'000'000`) improves readability.
+    \item \textbf{\texttt{std::make\_unique}:} Added to complement \texttt{std::make\_shared}, facilitating the creation of \texttt{unique\_ptr} instances.
+\end{itemize}
+
+\item \textbf{C++17}
+C++17 builds upon C++14, introducing several new features and improvements to the language:
+
+\begin{itemize}
+    \item \textbf{Structured bindings:} Allows decomposition of objects into their components directly in a simpler way.
+    \item \textbf{\texttt{std::optional}:} Provides a type-safe way to represent optional objects, avoiding null pointer issues.
+    \item \textbf{Parallel algorithms:} Standardized execution policies for algorithms, enabling easier parallelization.
+    \item \textbf{if constexpr:} Introduces constexpr if, allowing conditional compilation based on compile-time conditions.
+    \item \textbf{\texttt{std::variant}:} A type-safe union that provides an alternative to traditional C-style unions.
+    \item \textbf{Filesystem library:} Adds std::filesystem for portable file system operations, facilitating file and directory management.
+\end{itemize}
+
+\item \textbf{C++20} introduces significant new features aimed at improving developer productivity and code clarity:
+\begin{itemize}
+    \item \textbf{Concepts:} A major addition enabling concepts as a way to specify and constrain template parameters.
+    \item \textbf{Ranges:} Introduces a comprehensive library for working with ranges of elements, replacing iterators in many cases.
+    \item \textbf{Coroutines:} Introduces coroutines, allowing functions to be suspended and resumed at specific points.
+    \item \textbf{Modules:} Introduces module support, improving build times and reducing header file dependencies.
+    \item \textbf{Three-way comparison:} Simplifies and standardizes comparison operations with the introduction of the spaceship operator (`<=>`).
+    \item \textbf{Calendar and timezone support:} Enhances std::chrono with support for calendars and timezones, improving date and time handling.
+\end{itemize}
+\end{itemize}
+

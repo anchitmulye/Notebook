@@ -1,0 +1,644 @@
+\section{Object Oriented Programming (OOP)}
+
+\subsection{What is Class and Object in C++?}
+\begin{itemize}
+\item \textbf{Class}: In C++, a class is a user-defined data type that encapsulates data and functions into a single unit. It serves as a blueprint for creating objects. For example:
+\begin{tcolorbox}[title=Class]
+\begin{verbatim}
+class Car {
+    public:
+        string brand;
+        int year;
+};
+\end{verbatim}
+\end{tcolorbox}
+\item \textbf{Object}: An object is an instance of a class. It represents a real-world entity based on the class blueprint. For example:
+\begin{tcolorbox}[title=Object]
+\begin{verbatim}
+Car myCar;
+myCar.brand = "Toyota";
+myCar.year = 2023;
+\end{verbatim}
+\end{tcolorbox}
+\end{itemize}
+
+\subsection{What are differences between C++ struct and C++ class?}
+In C++, the struct and class keywords are largely interchangeable, with the main difference being default access level (public for struct, private for class). Example:
+\begin{tcolorbox}[title=Struct vs Class]
+\begin{verbatim}
+struct Rectangle {
+    int width, height; // Members are public by default
+};
+
+class Circle {
+    int radius; // Members are private by default
+public:
+    void setRadius(int r) {
+        radius = r;
+    }
+};
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is object slicing?}
+Object slicing occurs when a derived class object is assigned to a base class object. The derived class-specific attributes and methods are "sliced off," leaving only the base class attributes and methods.
+\begin{tcolorbox}[title=Object Slicing]
+\begin{verbatim}
+class Base {
+public:
+    int baseVar;
+};
+
+class Derived : public Base {
+public:
+    int derivedVar;
+};
+
+Base baseObj;
+Derived derivedObj;
+baseObj = derivedObj; // Object slicing: derivedVar is sliced off
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What are the four pillars of OOP? Explain each with an example.}
+The four pillars of Object-Oriented Programming (OOP) are:
+\begin{enumerate}
+    \item \textbf{Encapsulation:} Bundling of data and methods that operate on the data into a single unit (class).
+    \begin{tcolorbox}[title=Example of Encapsulation]
+    \begin{verbatim}
+    class Employee {
+    private:
+        std::string name;
+        double salary;
+    public:
+        Employee(std::string empName, double empSalary) 
+            : name(empName), salary(empSalary) {}
+        double getSalary() {
+            return salary;
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Abstraction:} Hiding of complex implementation details and exposing only relevant operations.
+    \begin{tcolorbox}[title=Example of Abstraction]
+    \begin{verbatim}
+    class Shape {
+    public:
+        virtual double calculateArea() = 0; // Pure virtual function
+    };
+    
+    class Circle : public Shape {
+    private:
+        double radius;
+    public:
+        Circle(double r) : radius(r) {}
+        double calculateArea() override {
+            return 3.14 * radius * radius;
+        }
+    };
+    
+    class Rectangle : public Shape {
+    private:
+        double width, height;
+    public:
+        Rectangle(double w, double h) : width(w), height(h) {}
+        double calculateArea() override {
+            return width * height;
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Inheritance:} Mechanism by which a class can inherit properties and behavior from another class.
+    \begin{tcolorbox}[title=Example of Inheritance]
+    \begin{verbatim}
+    class Animal {
+        public:
+            void eat() {
+                std::cout << "Eating..." << std::endl;
+            }
+        };
+        
+    class Dog : public Animal {
+    public:
+        void bark() {
+            std::cout << "Barking..." << std::endl;
+        }
+    };
+    
+    class Cat : public Animal {
+    public:
+        void meow() {
+            std::cout << "Meowing..." << std::endl;
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Polymorphism:} Ability to process objects differently depending on their data type or class.
+    \begin{tcolorbox}[title=Example of Polymorphism]
+    \begin{verbatim}
+    class Animal {
+    public:
+        virtual void makeSound() {
+            std::cout << "Some generic animal sound" << std::endl;
+        }
+    };
+    
+    class Dog : public Animal {
+    public:
+        void makeSound() override {
+            std::cout << "Bark" << std::endl;
+        }
+    };
+    
+    class Cat : public Animal {
+    public:
+        void makeSound() override {
+            std::cout << "Meow" << std::endl;
+        }
+    };
+    
+    void animalSound(Animal *animal) {
+        animal->makeSound();
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+\end{enumerate}
+
+\subsection{What is inheritance? Explain the types of inheritance in C++.}
+Inheritance is a mechanism in which a class (derived class) inherits properties and behaviors from another class (base class). Types of inheritance in C++ include:
+\begin{itemize}
+    \item \textbf{Single inheritance:} One class inherits from only one base class.
+    \item \textbf{Multiple inheritance:} One class inherits from multiple base classes.
+    \item \textbf{Multilevel inheritance:} Deriving a class from another derived class.
+    \item \textbf{Hierarchical inheritance:} Multiple derived classes from a single base class.
+\end{itemize}
+
+\subsection{What is polymorphism? Explain with an example.}
+Polymorphism allows objects of different classes to be treated as objects of a common superclass. Example:
+\begin{tcolorbox}[title=Polymorphism]
+\begin{verbatim}
+class Animal {
+public:
+    virtual void makeSound() {
+        cout << "Animal sound" << endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void makeSound() override {
+        cout << "Bark" << endl;
+    }
+};
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What are types of polymorphism? Explain with an example. Explain the cost associated with each type.}
+Polymorphism in C++ can be broadly classified into two types: compile-time polymorphism and runtime polymorphism.
+\begin{itemize}
+\item \textbf{Compile-time Polymorphism} Compile-time polymorphism is achieved through function overloading and operator overloading. This type of polymorphism is resolved during compile time.
+\begin{itemize}
+    \item \textbf{Cost:} Compile-time polymorphism has no runtime overhead since all the decisions are made during compilation. The main cost associated is the increase in binary size due to multiple function definitions.
+    \begin{tcolorbox}[title=Compile-time Polymorphism using Function Overloading]
+    \begin{verbatim}
+    #include <iostream>
+
+    class Print {
+    public:
+        void show(int i) {
+            std::cout << "Integer: " << i << std::endl;
+        }
+
+        void show(double d) {
+            std::cout << "Double: " << d << std::endl;
+        }
+
+        void show(std::string s) {
+            std::cout << "String: " << s << std::endl;
+        }
+    };
+
+    int main() {
+        Print p;
+        p.show(5);
+        p.show(5.5);
+        p.show("Hello");
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+\item \textbf{Runtime Polymorphism} Runtime polymorphism is achieved through inheritance and virtual functions. This type of polymorphism is resolved during runtime.
+\begin{itemize}
+    \item \textbf{Cost:} Runtime polymorphism introduces a runtime overhead due to the dynamic binding mechanism (vtable lookup). This can also lead to slightly larger binary sizes and slower execution compared to compile-time polymorphism.
+    \begin{tcolorbox}[title=Runtime Polymorphism using Virtual Functions]
+    \begin{verbatim}
+    #include <iostream>
+
+    class Base {
+    public:
+        virtual void show() {
+            std::cout << "Base class" << std::endl;
+        }
+    };
+
+    class Derived : public Base {
+    public:
+        void show() override {
+            std::cout << "Derived class" << std::endl;
+        }
+    };
+
+    int main() {
+        Base* b;
+        Derived d;
+        b = &d;
+
+        b->show(); // Calls Derived's show()
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+\end{itemize}
+
+
+\subsection{What is encapsulation? Why is it important?}
+Encapsulation is bundling data and methods that operate on the data into a single unit (class), hiding the internal details of how an object operates. It promotes reusability and allows for better control over data, enhancing security and reducing complexity.
+
+\subsection{What is abstraction? Give example of abstraction in C++.}
+Abstraction is the process of hiding complex implementation details and exposing only relevant operations to the user. Example:
+\begin{tcolorbox}[title=Abstraction]
+\begin{verbatim}
+class Shape {
+public:
+    virtual void draw() = 0; // Pure virtual function
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        // Draw circle implementation
+    }
+};
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is difference between function overloading and function overriding?}
+\begin{itemize} 
+    \item \textbf{Function Overloading} Function overloading is a feature in C++ that allows multiple functions to have the same name with different parameters. The correct function to be called is determined at compile time based on the function signature.
+    \paragraph{Key Points:}
+    \begin{itemize}
+        \item Same function name with different parameters.
+        \item Resolved at compile time.
+    \end{itemize}
+    \begin{tcolorbox}[title=Function Overloading]
+    \begin{verbatim}
+    #include <iostream>
+
+    class Print {
+    public:
+        void show(int i) {
+            std::cout << "Integer: " << i << std::endl;
+        }
+
+        void show(double d) {
+            std::cout << "Double: " << d << std::endl;
+        }
+
+        void show(std::string s) {
+            std::cout << "String: " << s << std::endl;
+        }
+    };
+
+    int main() {
+        Print p;
+        p.show(5);         // Calls show(int)
+        p.show(5.5);       // Calls show(double)
+        p.show("Hello");   // Calls show(std::string)
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Function Overriding} Function overriding allows a derived class to provide a specific implementation of a function that is already defined in its base class. The function in the base class must be declared with the \texttt{virtual} keyword. The correct function to be called is determined at runtime.
+    \paragraph{Key Points:}
+    \begin{itemize}
+        \item Same function name and parameters in both base and derived classes.
+        \item Requires \texttt{virtual} keyword in the base class.
+        \item Resolved at runtime.
+    \end{itemize}
+    \begin{tcolorbox}[title=Function Overriding]
+    \begin{verbatim}
+    #include <iostream>
+
+    class Base {
+    public:
+        virtual void show() {
+            std::cout << "Base class" << std::endl;
+        }
+    };
+
+    class Derived : public Base {
+    public:
+        void show() override {
+            std::cout << "Derived class" << std::endl;
+        }
+    };
+
+    int main() {
+        Base* b;
+        Derived d;
+        b = &d;
+
+        b->show(); // Calls Derived's show()
+        return 0;
+    }
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+
+\subsection{What is difference between virtual and pure virtual?}
+A virtual function is a member function in a base class that can be overridden in a derived class, while a pure virtual function is a virtual function declared in a base class with no implementation and must be overridden in derived classes.
+\begin{itemize}
+    \item \textbf{Normal Functions:} Regular member functions that cannot be overridden in derived classes.
+    \item \textbf{Virtual Functions:} Member functions that can be overridden in derived classes and are resolved at runtime.
+    \item \textbf{Pure Virtual Functions:} Member functions with no implementation in the base class, must be overridden in derived classes, making the base class abstract.
+\end{itemize}
+\begin{tcolorbox}[title=Normal Function]
+\begin{verbatim}
+    #include <iostream>
+
+    class Base {
+    public:
+        void show() {
+            std::cout << "Normal function in Base class" << std::endl;
+        }
+    };
+
+    class Derived : public Base {
+    public:
+        void show() {
+            std::cout << "Normal function in Derived class" << std::endl;
+        }
+    };
+
+    int main() {
+        Base b;
+        b.show(); // Calls Base's show()
+
+        Derived d;
+        d.show(); // Calls Derived's show()
+        return 0;
+    }
+\end{verbatim}
+\end{tcolorbox}
+\begin{tcolorbox}[title=Virtual Function]
+\begin{verbatim}
+#include <iostream>
+
+class Base {
+public:
+    virtual void show() {
+        std::cout << "Virtual function in Base class" << std::endl;
+    }
+};
+
+class Derived : public Base {
+public:
+    void show() override {
+        std::cout << "Virtual function in Derived class" << std::endl;
+    }
+};
+
+int main() {
+    Base* b = new Derived;
+    b->show(); // Calls Derived's show() because of virtual function
+    delete b;
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+\begin{tcolorbox}[title=Pure Virtual Function]
+\begin{verbatim}
+#include <iostream>
+
+class Base {
+public:
+    virtual void show() = 0; // Pure virtual function
+};
+
+class Derived : public Base {
+public:
+    void show() override {
+        std::cout << "Pure virtual function overridden in Derived class" << std::endl;
+    }
+};
+
+int main() {
+    // Base b; // Error: Cannot instantiate abstract class
+    Base* b = new Derived;
+    b->show(); // Calls Derived's show()
+    delete b;
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What are abstract classes?}
+Abstract classes in C++ are classes that contain at least one pure virtual function. They cannot be instantiated on their own and are meant to be subclassed with concrete implementations of their pure virtual functions.
+
+\subsection{What is operator overloading?}
+Operator overloading allows operators to be redefined so that they work on objects of user-defined classes. For example, overloading the \texttt{+} operator to perform addition for custom objects.
+\begin{tcolorbox}[title=Operator Overloading]
+\begin{verbatim}
+class Complex {
+private:
+    double real;
+    double imag;
+    
+public:
+    Complex(double r = 0.0, double i = 0.0) : real(r), imag(i) {}
+    
+    // Overload the + operator
+    Complex operator + (const Complex& other) {
+        return Complex(real + other.real, imag + other.imag);
+    }
+    
+    // Overload the << operator for output
+    friend std::ostream& operator << (std::ostream& out, const Complex& c) {
+        out << c.real << " + " << c.imag << "i";
+        return out;
+    }
+};
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is virtual inheritance?}
+Virtual inheritance in C++ is used to resolve ambiguity caused by multiple inheritance by ensuring that only one instance of a base class exists in the inheritance hierarchy.
+In C++, the diamond problem occurs when a class inherits from two classes that both inherit from a common base class. This creates ambiguity in the derived class about which inherited class to use for a particular member inherited from the base class.
+\begin{tcolorbox}[title=Virtual Inheritance]
+\begin{verbatim}
+class A {
+public:
+    void foo() { std::cout << "A::foo()" << std::endl; }
+};
+
+class B : virtual public A {  // Virtual inheritance
+public:
+    void bar() { std::cout << "B::bar()" << std::endl; }
+};
+
+class C : virtual public A {  // Virtual inheritance
+public:
+    void baz() { std::cout << "C::baz()" << std::endl; }
+};
+
+class D : public B, public C {
+    // No longer inherits foo() ambiguously
+};
+\end{verbatim}
+\end{tcolorbox}
+\begin{itemize}
+    \item \textbf{Advantages of Virtual Inheritance}
+    \begin{itemize}
+    \item \textbf{Avoids Ambiguity:} By ensuring that only one instance of a base class exists within the inheritance hierarchy, virtual inheritance prevents ambiguity in accessing inherited members.
+    \item \textbf{Space Efficiency:} It reduces memory overhead by eliminating redundant base class instances that would occur without virtual inheritance.
+    \end{itemize}
+    \item \textbf{Disadvantages of Virtual Inheritance}
+    \begin{itemize}
+    \item \textbf{Complexity:} It adds complexity to the design and understanding of class relationships, especially in larger inheritance hierarchies.
+    \item \textbf{Performance Overhead:} Resolving virtual inheritance involves additional runtime overhead due to pointer adjustments and increased method lookup time.
+    \end{itemize}
+\end{itemize}
+
+\subsection{What is compile time and run time polymorphism?}
+\begin{itemize}
+    \item \textbf{Compile-time Polymorphism:} Achieved through function overloading and operator overloading. Resolved at compile-time based on the types of arguments or operands.
+    \item \textbf{Run-time Polymorphism:} Achieved through function overriding and virtual functions. Resolved at runtime based on the actual type of the object pointed to by the base class pointer or reference.
+\end{itemize}
+
+\subsection{What is constructor and destructor?}
+\begin{itemize}
+\item \textbf{Constructor} A constructor in C++ is a special member function that is automatically called when an object of a class is created. It is used to initialize the object's state. There are several types of constructors:
+\begin{itemize}
+    \item \textbf{Default Constructor:} Automatically initializes objects when no initial value is specified explicitly.
+    \begin{tcolorbox}[title=Default Constructor]
+    \begin{verbatim}
+    class Example {
+    public:
+        Example() {
+            // Default constructor
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+    
+    \item \textbf{Parameterized Constructor:} Takes parameters to initialize the object with user-defined values.
+    \begin{tcolorbox}[title=Parameterized Constructor]
+    \begin{verbatim}
+    class Example {
+    public:
+        int value;
+        Example(int val) {
+            value = val;  // Parameterized constructor
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+    
+    \item \textbf{Copy Constructor:} Creates a new object as a copy of an existing object.
+    \begin{tcolorbox}[title=Copy Constructor]
+    \begin{verbatim}
+    class Example {
+    public:
+        int value;
+        Example(const Example &obj) {
+            value = obj.value;  // Copy constructor
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+    
+    \item \textbf{Constructor Delegation (C++11 and later):} Calling one constructor from another within the same class.
+    \begin{tcolorbox}[title=Constructor Delegation]
+    \begin{verbatim}
+    class Example {
+    public:
+        int value;
+        Example() : Example(0) {}  // Delegating constructor
+        Example(int val) {
+            value = val;  // Parameterized constructor
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+\item \textbf{Destructor} A destructor in C++ is a special member function that is automatically called when an object goes out of scope or is explicitly deleted. It is used to release resources acquired by the object during its lifetime. Types of destructors include:
+
+\begin{itemize}
+    \item \textbf{Default Destructor:} Automatically provided if no user-defined destructor is specified.
+    \begin{tcolorbox}[title=Default Destructor]
+    \begin{verbatim}
+    class Example {
+    public:
+        ~Example() {
+            // Default destructor
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+    
+    \item \textbf{Virtual Destructor:} Ensures that the derived class objects are destructed properly by invoking their destructors first and then the base class destructors.
+    \begin{tcolorbox}[title=Virtual Destructor] 
+    \begin{verbatim}
+    class Base {
+    public:
+        virtual ~Base() {
+            // Virtual destructor
+        }
+    };
+    class Derived : public Base {
+    public:
+        ~Derived() {
+            // Derived class destructor
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+     
+    \item \textbf{Pure Virtual Destructor:} Declared as virtual and assigned a value 0, which must be implemented in the derived class.
+    \begin{tcolorbox}[title=Pure Virtual Destructor]
+    \begin{verbatim}
+    class Base {
+    public:
+        virtual ~Base() = 0;  // Pure virtual destructor
+    };
+    Base::~Base() {}  // Implementation in derived class
+    \end{verbatim}
+    \end{tcolorbox}
+    
+    \item \textbf{Non-Virtual Destructor:} Used when you do not need to delete a derived class object using a pointer to the base class.
+    \begin{tcolorbox}[title=Non-Virtual Destructor]
+    \begin{verbatim}
+    class Base {
+    public:
+        ~Base() {
+            // Non-virtual destructor
+        }
+    };
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}    
+\end{itemize}
+
+\subsection{What is friend class and friend function?}
+A friend class or function in C++ can access private and protected members of another class if it is declared as a friend. This is useful for allowing specific classes or functions to access private data.
+
+\subsection{Explain working of virtual table.}
+A virtual table (vtable) is used to support dynamic dispatch in C++ for polymorphic classes. It contains pointers to virtual functions of the class, allowing correct function calls at run-time based on the actual object type.
+
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+    
+\end{verbatim}
+\end{tcolorbox}

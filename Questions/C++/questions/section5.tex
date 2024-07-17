@@ -1,0 +1,108 @@
+\section{STL}
+
+\subsection{What is the difference between \texttt{std::vector} and \texttt{std::array}?}
+\begin{tabularx}{\textwidth}{|p{3.5cm}|X|X|}
+    \hline \rowcolor{tableheader}
+    \textbf{Aspect}                  & \textbf{\texttt{std::vector}}                                  & \textbf{\texttt{std::array}} \\
+    \hline \textbf{Size flexibility} & \texttt{std::vector} can dynamically resize itself.            & \texttt{std::array} has a fixed size determined at compile time. \\
+    \hline \textbf{Access}           & Elements are accessed via iterators or indices.                & Supports direct access via array indexing. \\
+    \hline \textbf{Storage location} & Typically allocates memory on the heap, managed automatically. & Allocates memory on the stack or as a member of a class. \\
+    \hline
+\end{tabularx}
+
+\subsection{What is the difference between \texttt{std::map} and \texttt{std::unordered\_map}?}
+\begin{tabularx}{\textwidth}{|p{3.5cm}|X|X|}
+    \hline \rowcolor{tableheader}
+    \textbf{Aspect}                & \textbf{\texttt{std::map}}                          & \textbf{\texttt{std::unordered\_map}} \\
+    \hline \textbf{Ordering}       & Stores elements in a sorted order based on keys.    & Does not maintain any particular order. \\
+    \hline \textbf{Performance}    & Operations like search, insertion, and deletion are typically slower due to ordered storage. & Provides faster average-time performance for search, insertion, and deletion operations. \\
+    \hline \textbf{Implementation} & Uses a binary search tree (usually Red-Black Tree). & Uses hash tables for storage. \\
+    \hline
+\end{tabularx}
+
+\subsection{What is the difference between \texttt{std::vector} and \texttt{std::list}?}
+\begin{tabularx}{\textwidth}{|p{3.5cm}|X|X|}
+    \hline \rowcolor{tableheader}
+    \textbf{Aspect}                   & \textbf{\texttt{std::vector}}                   & \textbf{\texttt{std::list}} \\
+    \hline \textbf{Memory allocation} & Stores elements contiguously in memory, allowing fast access but slower insertion/deletion at the middle. & Uses a doubly linked list, enabling fast insertion/deletion but slower access. \\
+    \hline \textbf{Iterators}         & Supports random access iterators, allowing efficient traversal and access to elements. & Supports bidirectional iterators, suitable for sequential traversal. \\
+    \hline \textbf{Size}              & Uses more memory due to its contiguous storage. & Uses extra memory for pointers in the linked list structure. \\
+    \hline
+\end{tabularx}
+
+\subsection{What is the difference between \texttt{std::cout} and \texttt{std::cerr}?}
+\begin{tabularx}{\textwidth}{|p{3.5cm}|X|X|}
+    \hline \rowcolor{tableheader}
+    \textbf{Aspect}              & \textbf{\texttt{std::cout}}                    & \textbf{\texttt{std::cerr}} \\
+    \hline \textbf{Buffering}    & Buffered by default, meaning output may not appear immediately on the console. & Unbuffered, ensuring immediate display of error messages. \\
+    \hline \textbf{Usage}        & Used for general output.                       & Specifically used for error messages or critical warnings. \\
+    \hline \textbf{Redirection}  & Can be redirected to a file or another stream. & Typically directed to the standard error output and is not redirected by default. \\
+    \hline
+\end{tabularx}
+
+\subsection{What are the differences between \texttt{std::unique\_ptr}, \texttt{std::shared\_ptr}, and \texttt{std::weak\_ptr}?}
+These are smart pointers in C++ with different ownership and behavior characteristics: \\
+\begin{itemize}
+    \item \textbf{\texttt{std::unique\_ptr}}: Provides exclusive ownership of an object, allows efficient transfer of ownership, and is move-only (cannot be copied).
+    \item \textbf{\texttt{std::shared\_ptr}}: Manages shared ownership of an object through reference counting, automatically deallocates the object when no more references exist.
+    \item \textbf{\texttt{std::weak\_ptr}}: Observes an object managed by \texttt{std::shared\_ptr} without affecting its reference count, avoiding cyclic dependencies and potential memory leaks.
+\end{itemize}
+\begin{tcolorbox}[title=Smart Pointers]
+\begin{verbatim}
+    std::unique_ptr<int> ptr(new int(10));
+   
+    std::shared_ptr<int> ptr1(new int(20));
+    std::shared_ptr<int> ptr2 = ptr1;
+   
+    std::shared_ptr<int> sharedPtr(new int(30));
+    std::weak_ptr<int> weakPtr = sharedPtr;
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is \texttt{std::sort}?}
+\texttt{std::sort} is a standard library function in C++ used for sorting elements in a container:
+\begin{itemize}
+    \item \textbf{Functionality:} Sorts the elements in ascending order by default, or using a custom comparator.
+    \item \textbf{Complexity:} Average-case time complexity is O(N log N), making it efficient for large datasets.
+    \item \textbf{Usage:} Can be applied to various containers like \texttt{std::vector}, \texttt{std::array}, and arrays, providing a flexible and optimized sorting mechanism.
+\end{itemize}
+\begin{tcolorbox}[title=\texttt{std::sort} Example]
+\begin{verbatim}
+    std::vector<int> vec = {5, 2, 9, 1, 5, 6};
+
+    std::sort(vec.begin(), vec.end()); // Sort in ascending order
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is \texttt{std::move}?}
+\texttt{std::move} is a utility function in C++11 that converts its argument into an rvalue, enabling efficient move semantics:
+\begin{itemize}
+    \item \textbf{Purpose:} Facilitates the transfer of resources (like ownership of dynamically allocated memory) from one object to another, avoiding unnecessary copying.
+    \item \textbf{Usage:} Often used with move constructors and move assignment operators to optimize performance, especially with large or non-copyable objects.
+\end{itemize}
+\begin{tcolorbox}[title=\texttt{std::move} Example]
+\begin{verbatim}
+    std::string str = "Hello, World!";
+    std::string new_str = std::move(str); // Transfer ownership
+
+    std::cout << "New string: " << new_str << std::endl;
+    std::cout << "Original string: " << str << std::endl; // str is now empty
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Explain the concept of \texttt{constexpr} in C++11. How is it different from \texttt{const}?}
+\texttt{constexpr} in C++11 denotes that an object or function is evaluated at compile-time:
+\begin{itemize}
+    \item \textbf{Variables:} Defines constants that must be initialized with constant expressions and can be used in contexts requiring constant expressions.
+    \item \textbf{Functions:} Specifies that a function can be evaluated at compile-time, enabling more efficient computation and better optimization.
+    \item \textbf{Difference from \texttt{const}:} While \texttt{const} ensures that the value of an object does not change, \texttt{constexpr} additionally ensures that the value is known at compile-time, allowing its use in compile-time computations and contexts.
+\end{itemize}
+\begin{tcolorbox}[title=\texttt{constexpr} Example]
+\begin{verbatim}
+    constexpr int factorial(int n) {
+        return (n <= 1) ? 1 : n * factorial(n - 1);
+    }
+    constexpr int result = factorial(5); // evaluated at compile-time
+\end{verbatim}
+\end{tcolorbox}
+\subsection{}
