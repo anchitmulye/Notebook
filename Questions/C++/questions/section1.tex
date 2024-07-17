@@ -593,7 +593,100 @@ int main() {
     \item Standard Namespace
 \end{itemize}
 
-\subsection{}
-\subsection{}
-\subsection{}
-\subsection{}
+\subsection{Explain different agruments of \texttt{main()}.}
+In C++, the \texttt{main()} function can have different argument signatures depending on the platform and compiler. Common signatures include:
+\begin{itemize}
+    \item \texttt{int main()}
+    \item \texttt{int main(int argc, char *argv[])}
+    \item \texttt{int main(int argc, char *argv[], char *envp[])}
+\end{itemize}
+\begin{itemize}
+    \item \texttt{argc}: Argument count, which is the number of command-line arguments passed to the program.
+    \item \texttt{argv}: Argument vector, an array of strings containing the command-line arguments.
+    \item \texttt{envp}: Environment variables passed to the program (in some implementations).
+\end{itemize}
+\begin{tcolorbox}[title=\texttt{main()} Function]
+\begin{verbatim}
+#include <iostream>
+
+int main(int argc, char *argv[]) {
+    std::cout << "Argument count: " << argc << std::endl;
+    for (int i = 0; i < argc; ++i) {
+        std::cout << "Argument " << i << ": " << argv[i] << std::endl;
+    }
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{What is difference between shallow copy and deep copy?}
+In C++, shallow copy and deep copy are ways of copying objects:
+\begin{itemize}
+    \item \textbf{Shallow Copy}: This involves copying the values of data members from one object to another. If the object contains pointers to dynamically allocated memory, only the pointers are copied, not the data they point to. Both objects then point to the same memory locations, which can lead to issues if one object modifies the data. 
+    \item \textbf{Deep Copy}: This involves copying all the data pointed to by the pointers as well. It allocates new memory for the copied object and copies the values pointed to by the pointers. This way, each object has its own copy of the data, preventing unintended side effects due to shared data.
+\end{itemize}
+\begin{tcolorbox}[title=Shallow Copy]
+\begin{verbatim}
+#include <iostream>
+
+class ShallowCopyExample {
+private:
+    int *data;
+public:
+    ShallowCopyExample(int d) {
+        data = new int(d);
+    }
+    // Shallow copy constructor
+    ShallowCopyExample(const ShallowCopyExample &other) {
+        data = other.data; // Only copies the pointer
+    }
+};
+
+int main() {
+    ShallowCopyExample obj1(10);
+    ShallowCopyExample obj2 = obj1; // Shallow copy happens here
+    // obj1 and obj2 now share the same data pointer
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Deep Copy]
+\begin{verbatim}
+#include <iostream>
+
+class DeepCopyExample {
+private:
+    int *data;
+public:
+    DeepCopyExample(int d) {
+        data = new int(d);
+    }
+    // Deep copy constructor
+    DeepCopyExample(const DeepCopyExample &other) {
+        data = new int(*other.data); // Allocates new memory and copies data
+    }
+    ~DeepCopyExample() {
+        delete data;
+    }
+};
+
+int main() {
+    DeepCopyExample obj1(10);
+    DeepCopyExample obj2 = obj1; // Deep copy happens here
+    // obj1 and obj2 have separate copies of data
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{How function calls works in C++?}
+In C++, function calls involve several steps:
+
+\begin{enumerate}
+    \item \textbf{Function Definition}: The function is defined, specifying its return type, name, parameters, and body. 
+    \item \textbf{Function Call}: When a function is called, control transfers to the function's entry point (its address).
+    \item \textbf{Function Execution}: Inside the function, the statements within its body are executed in sequence.
+    \item \textbf{Return Value}: If the function has a return type other than \texttt{void}, it returns a value back to the caller.
+    \item \textbf{Return to Caller}: Control returns to the caller, continuing execution from where the function was called.
+\end{enumerate}

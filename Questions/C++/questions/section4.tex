@@ -631,14 +631,90 @@ class D : public B, public C {
 \end{itemize}    
 \end{itemize}
 
-\subsection{What is friend class and friend function?}
-A friend class or function in C++ can access private and protected members of another class if it is declared as a friend. This is useful for allowing specific classes or functions to access private data.
+\subsection{Why there are no virtual constructor?}
+In C++, constructors cannot be declared as virtual because constructors are responsible for initializing objects and setting up their vtables. However, the vtable itself is set up during the object construction process based on the type of the object being constructed. If constructors were virtual, there would be ambiguity regarding which constructor to call during object creation, as virtual functions are resolved based on the vtable, which is not fully set up until after construction is complete.
 
-\subsection{Explain working of virtual table.}
-A virtual table (vtable) is used to support dynamic dispatch in C++ for polymorphic classes. It contains pointers to virtual functions of the class, allowing correct function calls at run-time based on the actual object type.
-
-\begin{tcolorbox}[title=]
+\subsection{When copy constructor is called and when copy assignment operator?}
+\begin{itemize}
+\item The copy constructor is called when a new object is initialized with an existing object of the same class, either by value or as a parameter to a function. It is invoked explicitly or implicitly during initialization. For example:
+\begin{tcolorbox}[title=Copy Constructor]
 \begin{verbatim}
-    
+class Example {
+public:
+    int value;
+    // Copy constructor
+    Example(const Example& obj) {
+        value = obj.value;
+    }
+};
+
+Example obj1;  // Default constructor
+Example obj2 = obj1;  // Copy constructor called here
 \end{verbatim}
 \end{tcolorbox}
+\item The copy assignment operator (operator=) is called when an already initialized object is assigned a new value from another object of the same type. For example:
+\begin{tcolorbox}[title=Copy Assignment Operator]
+\begin{verbatim}
+Example obj3;
+obj3 = obj1;  // Copy assignment operator called here
+\end{verbatim}
+\end{tcolorbox}
+\end{itemize}
+
+\subsection{What is the order in which objects are constructed and destructed?}
+\begin{itemize}
+    \item Objects in C++ are constructed in the following order:
+    \begin{itemize}
+        \item Base classes are constructed before derived classes.
+        \item Members are constructed in the order they are declared in the class.
+    \end{itemize}
+    \item Objects are destructed in the reverse order of construction:
+    \begin{itemize}
+        \item Members are destructed in the reverse order of their construction.
+        \item Derived classes are destructed before base classes.
+    \end{itemize}
+\end{itemize}
+
+\subsection{When constructor should use initialization list and when assignment?}
+\begin{itemize}
+\item Constructors should use initialization lists when initializing data members of a class, especially when those members are objects themselves or have a cost associated with their construction. Initialization lists ensure that data members are initialized before the body of the constructor is executed, which can be more efficient and avoids potential issues with uninitialized variables.
+\item Assignment inside the constructor body should be used when initialization requires complex logic that cannot be performed in the initialization list or when initialization depends on runtime conditions.
+\end{itemize}
+
+\subsection{What is friend class and friend function?}
+\begin{itemize}
+\item \textbf{Friend Class:} A friend class in C++ is a class that is granted access to the private and protected members of another class. It is declared using the friend keyword within the class definition. For example:
+\begin{tcolorbox}[title=Friend Class]
+\begin{verbatim}
+class A {
+private:
+    int data;
+    friend class B;  // B is a friend class of A
+};
+
+class B {
+public:
+    void accessA(A& obj) {
+        obj.data = 10;  // B can access private member data of A
+    }
+};
+\end{verbatim}
+\end{tcolorbox}
+\item \textbf{Friend Function:} A friend function is a function that is not a member of a class but is granted access to its private and protected members. It is declared as a friend using the friend keyword inside the class definition or as a standalone declaration in the enclosing namespace. For example:
+\begin{tcolorbox}[title=Friend Function]
+\begin{verbatim}
+class A {
+private:
+    int data;
+    friend void printData(A& obj);  // printData is a friend function of A
+};
+
+void printData(A& obj) {
+    std::cout << obj.data << std::endl;  // can access private member data
+}
+\end{verbatim}
+\end{tcolorbox}
+\end{itemize}
+
+\subsection{Explain working of virtual table.}
+A virtual table (vtable) is used in C++ to support dynamic dispatch of virtual functions for polymorphic classes. Each class with at least one virtual function has its own vtable, which is a static array of pointers to virtual functions. When an object is created, a pointer to its vtable (called the vpointer or vptr) is added as a hidden member of the object. This vptr points to the vtable of the class of the object.
