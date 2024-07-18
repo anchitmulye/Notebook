@@ -1,0 +1,109 @@
+\section{Arrays}
+
+\subsection{Write a program to find the intersection of two arrays.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+std::vector<int> findIntersection(const std::vector<int>& arr1, 
+                                    const std::vector<int>& arr2) {
+    std::unordered_set<int> set(arr1.begin(), arr1.end());
+    std::vector<int> intersection;
+
+    for (int num : arr2) {
+        if (set.count(num)) {
+            intersection.push_back(num);
+            set.erase(num); // to handle duplicates in arr2
+        }
+    }
+
+    return intersection;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to find the union of two arrays.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+std::vector<int> findUnion(const std::vector<int>& arr1, 
+                            const std::vector<int>& arr2) {
+    std::unordered_set<int> set(arr1.begin(), arr1.end());
+
+    for (int num : arr2) {
+        set.insert(num);
+    }
+
+    std::vector<int> union_vec(set.begin(), set.end());
+    return union_vec;
+}    
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to remove duplicates from an array.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+std::vector<int> removeDuplicates(const std::vector<int>& arr) {
+    std::unordered_set<int> set;
+    std::vector<int> unique;
+
+    for (int num : arr) {
+        if (set.insert(num).second) { // insert means num was not in the set
+            unique.push_back(num);
+        }
+    }
+
+    return unique;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to find the second largest number in an array.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int findSecondLargest(const std::vector<int>& arr) {
+    int first = INT_MIN;
+    int second = INT_MIN;
+
+    for (int num : arr) {
+        if (num > first) {
+            second = first;
+            first = num;
+        } else if (num > second && num != first) {
+            second = num;
+        }
+    }
+
+    return second;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to find the median of an array of numbers.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+double findMedian(std::vector<int>& arr) {
+    size_t n = arr.size();
+    std::sort(arr.begin(), arr.end());
+
+    if (n % 2 == 0) {
+        return (static_cast<double>(arr[n/2 - 1]) +
+                 static_cast<double>(arr[n/2])) / 2.0;
+    } else {
+        return static_cast<double>(arr[n/2]);
+    }
+}    
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to find the maximum and minimum elements in an array.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+void findMinMax(const std::vector<int>& arr, int& min, int& max) {
+    min = INT_MAX;
+    max = INT_MIN;
+
+    for (int num : arr) {
+        if (num < min) min = num;
+        if (num > max) max = num;
+    }
+}
+\end{verbatim}
+\end{tcolorbox}

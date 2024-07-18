@@ -1,0 +1,364 @@
+\section{Numbers}
+
+\subsection{Write a program to find the largest number among three numbers.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int findLargest(int a, int b, int c) {
+    // Compare the three numbers and return the largest one
+    if (a >= b && a >= c) {
+        return a;
+    } else if (b >= a && b >= c) {
+        return b;
+    } else {
+        return c;
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to check if a number is even or odd.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isEven(int num) {
+    // A number is even if it is divisible by 2
+    return num % 2 == 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to check if a year is a leap year.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isLeapYear(int year) {
+    // A year is a leap year if it is divisible by 4
+    // but not divisible by 100 unless it is also divisible by 400
+    if (year % 4 == 0) {
+        if (year % 100 == 0) {
+            if (year % 400 == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    } else {
+        return false;
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to swap two numbers.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+void swapNumbers(int &a, int &b) {
+    // Swap the values of a and b using a temporary variable
+    int temp = a;
+    a = b;
+    b = temp;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to find the factorial of a number.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int factorial(int n) {
+    // Initialize result to 1
+    int result = 1;
+    // Multiply result by each number from 1 to n
+    for (int i = 1; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to check if a number is prime.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isPrime(int num) {
+    // A number less than or equal to 1 is not prime
+    if (num <= 1) return false;
+    // Check divisibility from 2 to the square root of num
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) return false;
+    }
+    return true;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to print the Fibonacci series up to a certain number of terms.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+void printFibonacci(int n) {
+    // First two terms
+    int a = 0, b = 1;
+    cout << a << " " << b << " ";
+    for (int i = 2; i < n; i++) {
+        int next = a + b;
+        cout << next << " ";
+        a = b;
+        b = next;
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to reverse a number.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}  
+int reverseNumber(int num) {
+    int reversed = 0;
+    while (num > 0) {
+        reversed = reversed * 10 + num % 10;
+        num /= 10;
+    }
+    return reversed;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to check if a number is Armstrong number.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isArmstrong(int num) {
+    int originalNum = num;
+    int sum = 0;
+    int n = to_string(num).length(); // Number of digits in num
+    while (num > 0) {
+        int digit = num % 10;
+        sum += pow(digit, n);
+        num /= 10;
+    }
+    return sum == originalNum;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to find the GCD (Greatest Common Divisor) of two numbers.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int gcd(int a, int b) {
+    // Use the Euclidean algorithm
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to find the LCM (Least Common Multiple) of two numbers.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int lcm(int a, int b) {
+    return (a * b) / gcd(a, b); // Using LCM(a, b) * GCD(a, b) = a * b
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to find the factorial of a number using recursion.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int factorialRecursive(int n) {
+    if (n == 0) return 1; // Base case
+    return n * factorialRecursive(n - 1); // Recursive case
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to find the nth Fibonacci number using recursion.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int fibonacciRecursive(int n) {
+    if (n <= 1) return n; // Base case
+    return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to check if a number is a perfect number.}
+\begin{tcolorbox}[title=]
+\begin{verbatim} 
+bool isPerfectNumber(int num) {
+    int sum = 1;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) {
+            if (i * i != num) {
+                sum += i + num / i;
+            } else {
+                sum += i;
+            }
+        }
+    }
+    return sum == num && num != 1;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to convert decimal to binary.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+string decimalToBinary(int num) {
+    string binary = "";
+    while (num > 0) {
+        binary = to_string(num % 2) + binary;
+        num /= 2;
+    }
+    return binary;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to convert binary to decimal.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int binaryToDecimal(string binary) {
+    int decimal = 0;
+    int base = 1;
+    for (int i = binary.length() - 1; i >= 0; i--) {
+        if (binary[i] == '1') {
+            decimal += base;
+        }
+        base *= 2;
+    }
+    return decimal;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to check if a number is a palindrome using recursion.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isPalindromeRecursive(string str, int start, int end) {
+    if (start >= end) return true; // Base case
+    if (str[start] != str[end]) return false;
+    return isPalindromeRecursive(str, start + 1, end - 1); // Recursive case
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to check if a number is a power of two.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isPowerOfTwo(int num) {
+    // A number is a power of two if it has exactly one bit 
+    // set in its binary representation
+    return (num > 0) && ((num & (num - 1)) == 0);
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to find the factorial of a number using an iterative approach.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int factorialIterative(int n) {
+    int result = 1;
+    for (int i = 1; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to check if a number is a perfect square.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isPerfectSquare(int num) {
+    int sqrtNum = sqrt(num);
+    return (sqrtNum * sqrtNum == num);
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to convert a decimal number to its Roman numeral equivalent.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+string decimalToRoman(int num) {
+    // Arrays of roman numerals and their corresponding values
+    string romans[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL",
+                         "X", "IX", "V", "IV", "I"};
+    int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    string roman = "";
+    
+    for (int i = 0; i < 13; i++) {
+        while (num >= values[i]) {
+            num -= values[i];
+            roman += romans[i];
+        }
+    }
+    return roman;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Write a program to find the next prime number greater than a given number.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int nextPrime(int num) {
+    num++;
+    while (!isPrime(num)) {
+        num++;
+    }
+    return num;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

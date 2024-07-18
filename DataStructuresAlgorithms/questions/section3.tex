@@ -1,0 +1,127 @@
+\section{Strings}
+
+\subsection{Write a program to check if a string is a palindrome.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isPalindrome(string s) {
+    int left = 0, right = s.length() - 1;
+    while (left < right) {
+        if (s[left] != s[right])
+            return false;
+        left++;
+        right--;
+    }
+    return true;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to find the ASCII value of a character.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int getAsciiValue(char c) {
+    return int(c);
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to convert string to number.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int stringToNumber(const std::string& str) {
+    std::stringstream ss(str);
+    int num;
+    ss >> num;
+    return num;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to check if a string contains only digits.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool containsOnlyDigits(const std::string& str) {
+    for (char c : str) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to check if two strings are anagrams of each other.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool areAnagrams(const std::string& str1, const std::string& str2) {
+    std::string s1 = str1;
+    std::string s2 = str2;
+    std::sort(s1.begin(), s1.end());
+    std::sort(s2.begin(), s2.end());
+    return (s1 == s2);
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to reverse a string.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+std::string reverseString(const std::string& str) {
+    std::string reversed = str;
+    std::reverse(reversed.begin(), reversed.end());
+    return reversed;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to check if a string is a pangram (contains every letter of the alphabet at least once).}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool isPangram(const std::string& str) {
+    bool letters[26] = {false};
+    int index;
+
+    for (char c : str) {
+        if (isalpha(c)) {
+            if (islower(c)) {
+                index = c - 'a';
+            } else {
+                index = c - 'A';
+            }
+            letters[index] = true;
+        }
+    }
+
+    for (int i = 0; i < 26; ++i) {
+        if (!letters[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to check if a string is an anagram of a palindrome.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+bool canFormPalindrome(const std::string& str) {
+    std::unordered_map<char, int> freq;
+    int oddCount = 0;
+
+    for (char c : str) {
+        freq[c]++;
+    }
+
+    for (auto& pair : freq) {
+        if (pair.second % 2 != 0) {
+            oddCount++;
+        }
+    }
+
+    return (oddCount <= 1);
+}
+\end{verbatim}
+\end{tcolorbox}

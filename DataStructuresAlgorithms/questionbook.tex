@@ -1,0 +1,73 @@
+\documentclass{article}
+
+% Packages for formatting
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{tocloft}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{lipsum} % For dummy text
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric, arrows}
+
+% Change hyperref settings to remove boxes
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black,
+}
+
+% Page layout
+\geometry{a4paper, margin=1in}
+
+% Colors
+\definecolor{codehighlight}{rgb}{0.36, 0.54, 0.66}
+\definecolor{coderule}{rgb}{0.7, 0.7, 0.7}           % Grey frame codebox
+\definecolor{codebg}{rgb}{1.0, 1.0, 1.0}             % Background codebox
+\definecolor{tableheader}{RGB}{128, 128, 128}        % Grey table header
+\definecolor{tablecell}{RGB}{250, 250, 250}          % Table cell
+\definecolor{title}{rgb}{0.36, 0.54, 0.66}           % Custom title color
+
+
+% Code box style
+\tcbset{
+    colframe=tableheader, % Frame color
+    colback=tablecell,    % Background color
+    arc=0pt,           % Corner radius
+    boxrule=1pt        % Frame thickness
+}
+
+% Table of contents
+% \renewcommand{\cftbot}{}
+
+% Main document
+\begin{document}
+
+% Cover pages
+\include{cover/cover}
+\newpage
+\ % The empty page
+\thispagestyle{empty} % Remove page numbering
+\newpage
+\include{title/title}
+\newpage
+\ % The empty page
+\thispagestyle{empty} % Remove page numbering
+\newpage
+\pagenumbering{roman}
+\include{index/index}
+
+% Chapters
+\pagenumbering{arabic}
+\include{questions/section1}
+\include{questions/section2}
+\include{questions/section3}
+\include{questions/section4}
+\include{questions/section5}
+\end{document}

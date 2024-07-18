@@ -1,0 +1,341 @@
+\section{Data Structures}
+
+\subsection{Write a program to implement a stack (using arrays or linked lists).}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+#define MAX_SIZE 100
+
+class Stack {
+private:
+    int arr[MAX_SIZE];
+    int top;
+
+public:
+    Stack() {
+        top = -1;
+    }
+
+    void push(int value) {
+        if (top >= MAX_SIZE - 1) {
+            cout << "Stack Overflow\n";
+            return;
+        }
+        arr[++top] = value;
+    }
+
+    int pop() {
+        if (top < 0) {
+            cout << "Stack Underflow\n";
+            return -1; // or throw an exception
+        }
+        return arr[top--];
+    }
+
+    int peek() {
+        if (top < 0) {
+            cout << "Stack is empty\n";
+            return -1; // or throw an exception
+        }
+        return arr[top];
+    }
+
+    bool isEmpty() {
+        return (top == -1);
+    }
+};
+
+int main() {
+    Stack s;
+    s.push(10);
+    s.push(20);
+    s.push(30);
+    cout << s.pop() << " popped from stack\n";
+    cout << "Top element is " << s.peek() << endl;
+}    
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a queue (using arrays or linked lists).}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+#define MAX_SIZE 100
+
+class Queue {
+private:
+    int arr[MAX_SIZE];
+    int front, rear;
+
+public:
+    Queue() {
+        front = -1;
+        rear = -1;
+    }
+
+    void enqueue(int value) {
+        if (rear >= MAX_SIZE - 1) {
+            cout << "Queue Overflow\n";
+            return;
+        }
+        arr[++rear] = value;
+        if (front == -1) {
+            front = 0;
+        }
+    }
+
+    int dequeue() {
+        if (front == -1 || front > rear) {
+            cout << "Queue Underflow\n";
+            return -1; // or throw an exception
+        }
+        return arr[front++];
+    }
+
+    int peek() {
+        if (front == -1 || front > rear) {
+            cout << "Queue is empty\n";
+            return -1; // or throw an exception
+        }
+        return arr[front];
+    }
+
+    bool isEmpty() {
+        return (front == -1 || front > rear);
+    }
+};  
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a binary search tree and perform insertions and deletions.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+    struct TreeNode {
+        int data;
+        TreeNode* left;
+        TreeNode* right;
+        TreeNode(int val) : data(val), left(nullptr), right(nullptr) {}
+    };
+    
+    class BinarySearchTree {
+    private:
+        TreeNode* root;
+        TreeNode* insertRecursive(TreeNode* node, int key) {
+            if (node == nullptr) {
+                return new TreeNode(key);
+            }
+            if (key < node->data) {
+                node->left = insertRecursive(node->left, key);
+            } else if (key > node->data) {
+                node->right = insertRecursive(node->right, key);
+            }
+            return node;
+        }
+    
+        TreeNode* minValueNode(TreeNode* node) {
+            TreeNode* current = node;
+            while (current && current->left != nullptr) {
+                current = current->left;
+            }
+            return current;
+        }
+    
+        TreeNode* deleteRecursive(TreeNode* node, int key) {
+            if (node == nullptr) {
+                return node;
+            }
+            if (key < node->data) {
+                node->left = deleteRecursive(node->left, key);
+            } else if (key > node->data) {
+                node->right = deleteRecursive(node->right, key);
+            } else {
+                if (node->left == nullptr) {
+                    TreeNode* temp = node->right;
+                    delete node;
+                    return temp;
+                } else if (node->right == nullptr) {
+                    TreeNode* temp = node->left;
+                    delete node;
+                    return temp;
+                }
+                TreeNode* temp = minValueNode(node->right);
+                node->data = temp->data;
+                node->right = deleteRecursive(node->right, temp->data);
+            }
+            return node;
+        }
+\end{verbatim}
+\end{tcolorbox}
+\begin{tcolorbox}
+\begin{verbatim}
+    public:
+        BinarySearchTree() : root(nullptr) {}
+    
+        void insert(int key) {
+            root = insertRecursive(root, key);
+        }
+    
+        void remove(int key) {
+            root = deleteRecursive(root, key);
+        }
+    
+        void inorderTraversal(TreeNode* node) {
+            if (node == nullptr) {
+                return;
+            }
+            inorderTraversal(node->left);
+            cout << node->data << " ";
+            inorderTraversal(node->right);
+        }
+    
+        void inorder() {
+            inorderTraversal(root);
+            cout << endl;
+        }
+    };
+    
+    int main() {
+    BinarySearchTree bst;
+    bst.insert(50);
+    bst.insert(30);
+    bst.insert(20);
+    bst.insert(40);
+    bst.insert(70);
+    bst.insert(60);
+    bst.insert(80);
+
+    cout << "Inorder traversal of BST: ";
+    bst.inorder();
+
+    bst.remove(20);
+    cout << "Inorder traversal after deleting 20: ";
+    bst.inorder();
+
+    bst.remove(30);
+    cout << "Inorder traversal after deleting 30: ";
+    bst.inorder();
+
+    bst.remove(50);
+    cout << "Inorder traversal after deleting 50: ";
+    bst.inorder();
+
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a linked list and perform insertions and deletions.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+    #include <iostream>
+    using namespace std;
+    
+    struct ListNode {
+        int data;
+        ListNode* next;
+        ListNode(int val) : data(val), next(nullptr) {}
+    };
+    
+    class LinkedList {
+    private:
+        ListNode* head;
+    
+    public:
+        LinkedList() : head(nullptr) {}
+    
+        void insert(int val) {
+            ListNode* newNode = new ListNode(val);
+            newNode->next = head;
+            head = newNode;
+        }
+    
+        void remove(int val) {
+            ListNode* current = head;
+            ListNode* prev = nullptr;
+    
+            while (current != nullptr && current->data != val) {
+                prev = current;
+                current = current->next;
+            }
+    
+            if (current == nullptr) {
+                cout << "Element " << val << " not found in the list." << endl;
+                return;
+            }
+    
+            if (prev == nullptr) {
+                head = current->next;
+            } else {
+                prev->next = current->next;
+            }
+    
+            delete current;
+        }
+    
+        void display() {
+            ListNode* current = head;
+            while (current != nullptr) {
+                cout << current->data << " ";
+                current = current->next;
+            }
+            cout << endl;
+        }
+    };
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a basic queue using two stacks.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+    #include <iostream>
+    #include <stack>
+    using namespace std;
+    
+    class Queue {
+    private:
+        stack<int> s1;  // main stack for enqueue
+        stack<int> s2;  // temporary stack for dequeue
+    
+    public:
+        void enqueue(int val) {
+            s1.push(val);
+        }
+    
+        int dequeue() {
+            if (s1.empty() && s2.empty()) {
+                cout << "Queue is empty." << endl;
+                return -1;  // indicating queue is empty
+            }
+    
+            if (s2.empty()) {
+                // Transfer all elements from s1 to s2
+                while (!s1.empty()) {
+                    s2.push(s1.top());
+                    s1.pop();
+                }
+            }
+    
+            int front = s2.top();
+            s2.pop();
+            return front;
+        }
+    
+        bool isEmpty() {
+            return s1.empty() && s2.empty();
+        }
+    };
+    
+    int main() {
+        Queue q;
+        q.enqueue(1);
+        q.enqueue(2);
+        q.enqueue(3);
+        cout << "Dequeued element: " << q.dequeue() << endl;
+        cout << "Dequeued element: " << q.dequeue() << endl;
+        q.enqueue(4);
+        q.enqueue(5);
+        while (!q.isEmpty()) {
+            cout << "Dequeued element: " << q.dequeue() << endl;
+        }
+        cout << "Dequeued element: " << q.dequeue() << endl; // Dequeue from empty
+    }
+\end{verbatim}
+\end{tcolorbox}

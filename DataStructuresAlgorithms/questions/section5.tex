@@ -1,0 +1,214 @@
+\section{Algorithms}
+
+\subsection{Write a program to multiply two matrices.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+const int N = 3;
+
+void multiplyMatrices(int mat1[][N], int mat2[][N], int result[][N]) {
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            result[i][j] = 0;
+            for (int k = 0; k < N; ++k) {
+                result[i][j] += mat1[i][k] * mat2[k][j];
+            }
+        }
+    }
+}    
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a linear search algorithm.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int linearSearch(int arr[], int n, int key) {
+    for (int i = 0; i < n; ++i) {
+        if (arr[i] == key) {
+            return i; // Return index of key if found
+        }
+    }
+    return -1; // Return -1 if key is not found
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a binary search algorithm.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int binarySearch(int arr[], int l, int r, int key) {
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == key) {
+            return mid; // Return index of key if found
+        }
+        if (arr[mid] < key) {
+            l = mid + 1; // Search in the right half
+        } else {
+            r = mid - 1; // Search in the left half
+        }
+    }
+    return -1; // Return -1 if key is not found
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a bubble sort algorithm.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap arr[j] and arr[j + 1]
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement a selection sort algorithm.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; ++i) {
+        int min_idx = i;
+        for (int j = i + 1; j < n; ++j) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        // Swap arr[i] and arr[min_idx]
+        int temp = arr[i];
+        arr[i] = arr[min_idx];
+        arr[min_idx] = temp;
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement an insertion sort algorithm.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; ++i) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement an quick sort algorithm.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[high];  // Choosing the last element as the pivot
+    int i = low - 1;  // Index of the smaller element
+
+    for (int j = low; j < high; ++j) {
+        if (arr[j] < pivot) {
+            ++i;
+            swap(arr[i], arr[j]);
+        }
+    }
+
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+// Function to implement Quick Sort
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);  // Sort elements before partition
+        quickSort(arr, pi + 1, high); // Sort elements after partition
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to implement an merge sort algorithm.}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+void merge(vector<int>& arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // Create temporary arrays
+    vector<int> L(n1), R(n2);
+
+    // Copy data to temporary arrays L[] and R[]
+    for (int i = 0; i < n1; ++i)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; ++j)
+        R[j] = arr[mid + 1 + j];
+
+    // Merge the temporary arrays back into arr[left..right]
+    int i = 0;  // Initial index for left subarray
+    int j = 0;  // Initial index for right subarray
+    int k = left;  // Initial index for merged subarray
+
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            ++i;
+        } else {
+            arr[k] = R[j];
+            ++j;
+        }
+        ++k;
+    }
+
+    // Copy the remaining elements of L[], if any
+    while (i < n1) {
+        arr[k] = L[i];
+        ++i;
+        ++k;
+    }
+
+    // Copy the remaining elements of R[], if any
+    while (j < n2) {
+        arr[k] = R[j];
+        ++j;
+        ++k;
+    }
+}
+
+// Function to implement Merge Sort
+void mergeSort(vector<int>& arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2; 
+        mergeSort(arr, left, mid);  // Sort left half
+        mergeSort(arr, mid + 1, right); // Sort right half
+        merge(arr, left, mid, right); // Merge the sorted halves
+    }
+}
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Write a program to find the largest sum contiguous subarray (Kadane’s Algorithm).}
+\begin{tcolorbox}[title=]
+\begin{verbatim}
+int kadane(int arr[], int n) {
+    int max_so_far = arr[0];
+    int max_ending_here = arr[0];
+
+    for (int i = 1; i < n; ++i) {
+        max_ending_here = max(arr[i], max_ending_here + arr[i]);
+        max_so_far = max(max_so_far, max_ending_here);
+    }
+
+    return max_so_far;
+}
+\end{verbatim}
+\end{tcolorbox}
