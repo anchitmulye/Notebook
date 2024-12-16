@@ -256,7 +256,7 @@ printf("Comments in C begin with /* or //.\n");
 /* Temporarily removing two lines:
    const double pi = 3.1415926536; // Pi is constant
    area = pi * r * r               // Calculate the area
-*/
+   Temporarily removed up to here */
 ```
 > Conditional Preprocessor Directive: To remove sections containing block comments:
 ```c
@@ -279,7 +279,7 @@ Both the source and execution character sets include:
 
 - **Latin Alphabet**: A-Z, a-z
 - **Decimal Digits**: 0-9
-- **Punctuation Marks**: `!"#%&'()*+,-./:;<=>?[\]^_{|}~`
+- **Punctuation Marks**: `! " # % & ' ( ) * + , - . / : ; < = > ? [ \ ] ^ _ { | } ~ `
 - **Whitespace Characters**: Space, horizontal tab, vertical tab, new line, form feed
 
 The **basic execution character set** also includes:
@@ -453,11 +453,11 @@ int printList( const struct Node *first ) {
 }
 ```
 
-* Identifiers Node, next, printNode, and printList have file scope.
-* Parameter ptrNode in printNode has function prototype scope.
-* Variables first and ptr have block scope within printList.  
-I
-dentifiers can be re-declared within their scope, hiding outer declarations of the same identifier. For instance:
+* Identifiers `Node`, `next`, `printNode`, and `printList` have file scope.
+* Parameter `ptrNode` in `printNode` has function prototype scope.
+* Variables `first` and `ptr` have block scope within `printList`.  
+
+Identifiers can be re-declared within their scope, hiding outer declarations of the same identifier. For instance:
 
 ```c
 Copy code
@@ -525,7 +525,6 @@ During preprocessing, tokens have slight differences, such as `#include` recogni
 
 </center>
 <div style="page-break-after: always;"></div>
-
 
 ### Typology
 

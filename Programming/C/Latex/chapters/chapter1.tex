@@ -1,0 +1,239 @@
+% \chapter*{Part I. Language}
+
+\section{Language Basics}
+
+\subsection{Characteristics of C}
+C is a general-purpose, procedural language developed by Dennis Ritchie in the 1970s at AT\&T Bell Labs, designed for Unix system development. Key features include:
+\begin{itemize}
+    \item \textbf{Source Code Portability}: Independent of specific hardware platforms.
+    \item \textbf{Close to the Machine}: Efficient low-level operations.
+    \item \textbf{Efficiency}: Optimized for performance.
+\end{itemize}
+C’s design, influenced by BCPL and B, includes various data types. Its first description by Kernighan and Ritchie (K\&R) became the standard reference. C’s portability is enhanced by a core language with minimal hardware dependencies and a comprehensive standard library for functions like I/O and memory management.\\
+C is widely used in system programming and embedded systems, as well as high-level applications like word processors and databases.\\
+
+
+\subsection{The Structure of C Programs}
+C programs are composed of functions, with \texttt{main()} as the entry point. Functions execute sequentially and can call others. Programs can use the standard library or custom functions, with portability considerations for nonstandard libraries.
+\begin{tcolorbox}[title=Example structure of C program]
+\begin{verbatim}
+#include <stdio.h>              // Preprocessor directive
+double circularArea(double r);  // Function prototype
+
+int main() {                    // Main function
+    double radius = 1.0, area = 0.0;
+    printf("Areas of Circles\n\n");
+    area = circularArea(radius);
+    printf("%10.1f     %10.2f\n", radius, area);
+    radius = 5.0;
+    area = circularArea(radius);
+    printf("%10.1f     %10.2f\n", radius, area);
+    return 0;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+
+\subsection{Source Files}
+C programs consist of function definitions, global declarations, and preprocessing directives. Small programs use a single source file, while larger ones are split into multiple files, typically structured as follows:
+\begin{itemize}
+    \item \textbf{Preprocessor Directives}
+    \item \textbf{Global Declarations}
+    \item \textbf{Function Definitions}
+\end{itemize}
+Source files, labeled with the \texttt{.c} suffix, are modular and can be compiled separately. Functions are logically grouped, such as user interface functions.
+
+
+\subsection{Comments}
+Use comments generously in C programs for documentation. There are two types:
+\begin{itemize}
+    \item \textbf{Block Comments}: \texttt{/* ... */} for multi-line comments.\\
+    within a line:
+    \begin{tcolorbox}[]
+    \begin{verbatim}
+    int open(const char *name, int mode, ... /* int permissions */);
+    \end{verbatim}
+    \end{tcolorbox}
+    \item \textbf{Line Comments}: \texttt{//} for single-line comments (added in C99, also known as "C++-style").\\
+    in two-column format:
+    \begin{tcolorbox}[]
+    \begin{verbatim}
+    const double pi = 3.1415926536; // Pi is constant
+    \end{verbatim}
+    \end{tcolorbox}
+\end{itemize}
+
+\begin{tcolorbox}[arc=5pt, boxrule=2pt, title=Notes]
+    Inside strings or character constants, /* and // do not start comments:
+    \begin{verbatim}
+    printf("Comments in C begin with /* or //.\n");
+    \end{verbatim}   
+    \textbf{Nesting Block Comments}: Not allowed. Use block comments to temporarily remove code containing line comments:
+    \begin{verbatim}
+    /* Temporarily removing two lines:
+    const double pi = 3.1415926536; // Pi is constant
+    area = pi * r * r               // Calculate the area
+    Temporarily removed up to here */
+    \end{verbatim}   
+    \textbf{Conditional Preprocessor Directive}: To remove sections containing block comments:
+    \begin{verbatim}
+    #if 0
+    const double pi = 3.1415926536; /* Pi is constant */
+    area = pi * r * r;              /* Calculate the area */
+    #endif
+    \end{verbatim}   
+\end{tcolorbox}
+
+
+\subsection{Character Sets}
+C distinguishes between the \textbf{translation environment} (where source files are compiled) and the \textbf{execution environment} (where the compiled program runs). Each environment has its own character set:
+\begin{itemize}
+    \item \textbf{Source Character Set}: Used in C source code.
+    \item \textbf{Execution Character Set}: Interpreted by the running program.
+\end{itemize}
+\textbf{\textit{Basic and Extended Character Sets}} \\
+Both the source and execution character sets include:
+\begin{itemize}
+    \item \textbf{Latin Alphabet}: A-Z, a-z
+    \item \textbf{Decimal Digits}: 0-9
+    \item \textbf{Punctuation Marks}:
+    \begin{lstlisting}[basicstyle=\ttfamily]
+    ! " # % & ' ( ) * + , - . / : ; < = > ? [ ] \ ^ _ { | } ~
+    \end{lstlisting}
+    \item \textbf{Whitespace Characters}: Space, horizontal tab, vertical tab, new line, form feed
+\end{itemize}
+
+The \textbf{basic execution character set} also includes:
+\begin{itemize}
+    \item \textbf{Nonprintable Characters}: null (\texttt{\textbackslash 0}), alert (\texttt{\textbackslash a}), backspace (\texttt{\textbackslash b}), carriage return (\texttt{\textbackslash r})
+\end{itemize}
+Character codes may vary across implementations, with conditions:
+
+\begin{itemize}
+    \item Basic characters must be representable in one byte.
+    \item The null character's byte has all bits set to 0.
+    \item Digits increment by one sequentially.
+\end{itemize}
+\textbf{\textit{Wide Characters and Multibyte Characters}} \\
+To accommodate diverse languages, C supports:
+
+\begin{itemize}
+    \item \textbf{Wide Characters} (\texttt{wchar\_t}): Fixed bit width for each character, suitable for large character sets.
+    \item \textbf{Multibyte Characters}: Variable length, used for complex scripts (e.g., UTF-8).
+\end{itemize}
+
+C provides functions like \texttt{wctomb()} for conversions between wide and multibyte characters. Example:
+\begin{tcolorbox}
+\begin{verbatim}
+wchar_t wc = L'\x3B1'; // Greek letter alpha 
+char mbStr[10] = "";
+int nBytes = wctomb(mbStr, wc); // Converts to multibyte
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{\textit{Digraphs and Trigraphs}} \\
+C provides \textbf{digraphs} and \textbf{trigraphs} as alternative representations for certain punctuation marks, useful when specific characters are not available on all keyboards.
+\textbf{\textit{Digraphs}} \\
+Digraphs are two-character sequences that represent single characters. They are not interpreted within character constants or string literals.
+\begin{table}[h]
+\centering
+\begin{tabular}{|>{}c|c|}
+\hline
+\rowcolor{tableheader}
+\textbf{Digraph}        & \textbf{Equivale} \\
+\hline \texttt{<:}      & \texttt{[} \\
+\hline \texttt{:>}      & \texttt{]} \\
+\hline \texttt{<\%}     & \texttt{\{} \\
+\hline \texttt{\%>}     & \texttt{\}} \\
+\hline \texttt{\%:}     & \texttt{\#} \\
+\hline \texttt{\%:\%:}  & \texttt{\#\#} \\
+\hline
+\end{tabular}
+\caption{Digraphs}
+\end{table}
+\begin{tcolorbox}[title=Example with digraphs]
+\begin{verbatim}
+int arr<::> = <% 10, 20, 30 %>;
+printf("The second array element is <%d>.\n", arr<:1:>);
+\end{verbatim}
+\end{tcolorbox}
+\textbf{\textit{Trigraphs}} \\
+Trigraphs are three-character sequences starting with two question marks and represent single characters.
+\begin{table}[h]
+\centering
+\begin{tabular}{|>{}c|c|}
+\hline
+\rowcolor{tableheader}
+\textbf{Trigraph}       & \textbf{Equivale} \\
+\hline \texttt{??(}     & \texttt{[} \\
+\hline \texttt{??)}     & \texttt{]} \\
+\hline \texttt{??<}     & \texttt{\{} \\
+\hline \texttt{??>}     & \texttt{\}} \\
+\hline \texttt{??=}     & \texttt{\#} \\
+\hline \texttt{??/}     & \texttt{\textbackslash} \\
+\hline \texttt{??!}     & \texttt{|} \\
+\hline \texttt{??'}     & \texttt{\textasciicircum} \\
+\hline \texttt{??-}     & \texttt{\textasciitilde} \\
+\hline
+\end{tabular}
+\caption{Trigraphs}
+\end{table}
+Trigraphs are translated in the first phase of compilation and can appear anywhere, including character constants, string literals, and comments.
+\begin{tcolorbox}[title=Example with trigraphs]
+\begin{verbatim}
+printf("Cancel| `???(y/n)` ");
+\end{verbatim}
+\end{tcolorbox}
+To prevent a trigraph interpretation, escape the question marks:
+\begin{tcolorbox}
+\begin{verbatim}
+printf("Cancel\?\?\?(y/n) ");
+\end{verbatim}
+\end{tcolorbox}
+Additional Punctuation Substitutes
+The header file iso646.h defines macros for logical and bitwise operators, e.g., and for \&\& and xor for \textasciicircum.
+
+\subsection{Identifiers}
+
+
+
+\subsection{How the C Compiler Works}
+The compiling process involves eight logical steps, which can be combined by a compiler:
+\begin{enumerate}
+    \item \textbf{Character Conversion}: Characters from the source file are converted into the source character set. End-of-line indicators are replaced, and trigraph sequences are converted to single characters.
+    \item \textbf{Line Continuation}: Backslashes followed by a newline are deleted, allowing directives to continue on the next line.
+    \item \textbf{Tokenization}: The source file is broken into preprocessor tokens and whitespace. Comments are treated as a single space.
+    \item \textbf{Preprocessing}: Preprocessor directives are executed, and macro calls are expanded. This step applies to included files as well.
+    \item \textbf{Character Set Conversion}: Characters in constants and literals are converted to the execution character set.
+    \item \textbf{String Concatenation}: Adjacent string literals are concatenated into a single string.
+    \item \textbf{Compilation}: The compiler analyzes the tokens and generates machine code.
+    \item \textbf{Linking}: The linker resolves references to external objects/functions and generates the executable file. Unresolved references are taken from libraries.
+\end{enumerate}
+
+
+
+Some mathematical equations:
+
+\begin{equation}
+    E = mc^2
+\end{equation}
+
+\begin{equation}
+    \frac{d}{dx} \left( e^{x} \right) = e^{x}
+\end{equation}
+
+\begin{equation}
+    \int_{a}^{b} x^2 \, dx = \left[ \frac{x^3}{3} \right]_{a}^{b}
+\end{equation}
+
+\begin{equation}
+    \vec{F} = m \vec{a}
+\end{equation}
+
+\begin{equation}
+    \sigma = \frac{F}{A}
+\end{equation}
+
+\begin{equation}
+    \sum_{n=1}^{N} n = \frac{N(N+1)}{2}
+\end{equation}

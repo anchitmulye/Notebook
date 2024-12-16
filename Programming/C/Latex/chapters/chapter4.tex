@@ -1,0 +1,81 @@
+\section{Type Conversions}
+
+\subsection{Conversion of Arithmetic Types}
+\subsection{Conversion of Nonarithmetic Types}
+
+% Normal Table
+\subsection{Simple Table}
+\begin{table}[h]
+\centering
+\begin{tabular}{|>{}c|c|c|}
+\hline
+\rowcolor{tableheader}
+\textbf{Column 1} & \textbf{Column 2} & \textbf{Column 3} \\
+\hline Item 1 & Item 2 & Item 3 \\
+\hline Item 4 & Item 5 & Item 6 \\
+\hline
+\end{tabular}
+\caption{A simple table}
+\end{table}
+
+\subsection{Colored Table}
+\begin{table}[h]
+\centering
+\begin{tabular}{|>{\columncolor{tableheader}}c|c|c|}
+\hline
+\rowcolor{tableheader}
+\textbf{Column 1} & \textbf{Column 2} & \textbf{Column 3} \\
+\hline Item 1 & Item 2 & \cellcolor{codehighlight} Item 3 \\
+\hline Item 4 & \cellcolor{codehighlight} Item 5 & Item 6 \\
+\hline
+\end{tabular}
+\caption{A colored table}
+\end{table}
+
+% Headerless table
+\subsection{Headless Table}
+\begin{center} % This is same as /centering
+\normalsize % or \footnotesize, \scriptsize, \tiny
+\begin{tabular}{|c|c|c|}
+\hline Item 1 & Item 2 & Item 3 \\
+\hline Item 4 & Item 5 & Item 6 \\
+\hline Item 7 & Item 8 & Item 9 \\
+\hline
+\end{tabular}
+\end{center}
+
+% Borderless table
+\subsection{Borderless Table}
+\begin{center} % This is same as /centering
+\normalsize % or \footnotesize, \scriptsize, \tiny
+\begin{tabular}{ccc}
+\hline Item 1 & Item 2 & Item 3 \\
+\hline Item 4 & Item 5 & Item 6 \\
+\hline Item 7 & Item 8 & Item 9 \\
+\hline
+\end{tabular}
+\end{center}
+
+% Complete Borderless table
+\subsection{Complete Borderless Table}
+\begin{center} % This is same as /centering
+\normalsize % or \footnotesize, \scriptsize, \tiny
+\begin{tabular}{ccc}
+Item 1 & Item 2 & Item 3 \\
+Item 4 & Item 5 & Item 6 \\
+Item 7 & Item 8 & Item 9 \\
+\end{tabular}
+\end{center}
+
+% Normal Table color
+\subsection{Headless Table with Alternating Row Colors}
+\raggedright
+\large
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{codehighlight} Item 1 & Item 2 & Item 3 \\
+\hline Item 4 & Item 5 & Item 6 \\
+\hline
+\rowcolor{codehighlight} Item 7 & Item 8 & Item 9 \\
+\hline
+\end{tabular}
